@@ -1,0 +1,19 @@
+.tree-view-container {
+    position: relative;
+}
+
+.svg-over-tree {
+    position: absolute;
+    z-index: 1000;
+    pointer-events: none;
+
+    text {
+        font-size: 40px;
+        fill: white; 
+    }
+}
+
+.tree-canvas {
+    display: block;
+    border: 1px solid black;
+}
