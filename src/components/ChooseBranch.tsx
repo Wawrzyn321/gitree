@@ -1,6 +1,6 @@
 import React from "react";
 import { Branch } from "../types/GithubFile";
-import { fetchFiles } from "../domain/api";
+import { fetchFiles } from "../api/api";
 import { buildTree } from "../domain/fileTree";
 import { TreeView } from "./TreeRenderer";
 
@@ -38,7 +38,7 @@ export function ChooseBranch(props: ChooseBranchProps) {
             }}
           >
             <option value=".none" disabled hidden>
-              Select repo
+              Select branch
             </option>
             {branches.map((b: Branch) => (
               <option key={b.name} value={b.name}>

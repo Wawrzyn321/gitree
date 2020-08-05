@@ -1,5 +1,5 @@
 import React from "react";
-import { fetchBranches } from "../domain/api";
+import { fetchBranches } from "../api/api";
 import { Branch } from "../types/GithubFile";
 import { ChooseBranch } from "./ChooseBranch";
 

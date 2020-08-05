@@ -1,23 +1,5 @@
-import { GithubFile, Branch } from "./../types/GithubFile";
-
-interface GithubTreeNode {
-  type: 'blob' | 'string';
-  path: string;
-  size: number;
-}
-
-interface GithubRepository {
-  name: string;
-}
-
-interface GithubCommit {
-  sha: string;
-}
-
-interface GithubBranch {
-  name: string;
-  commit: GithubCommit;
-}
+import { GithubFile, Branch } from "../types/GithubFile";
+import { GithubRepository, GithubBranch, GithubTreeNode } from "./ApiTypes";
 
 export const fetchRepos = async (user: string, token: string): Promise<string[] | null> => {
   const url = `https://api.github.com/users/${user}/repos`;
@@ -44,7 +26,7 @@ export const fetchBranches = async (user: string, token: string, repo: string): 
       },
     });
     const json = await response.json();
-    return json.map((b: GithubBranch) => ({name: b.name, commitSha: b.commit.sha}));
+    return json.map((b: GithubBranch) => ({ name: b.name, commitSha: b.commit.sha }));
   } catch (e) {
     console.warn(e);
     return null;

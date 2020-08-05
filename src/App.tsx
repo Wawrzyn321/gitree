@@ -3,7 +3,7 @@ import {
   useLocalStorageState,
   useSessionStorageState,
 } from "./domain/useStorageState";
-import {  fetchRepos } from "./domain/api";
+import {  fetchRepos } from "./api/api";
 import { ChooseRepo } from "./components/ChooseRepo";
 
 function App() {
@@ -14,7 +14,7 @@ function App() {
   const canFetchRepos = !!user && !!token;
 
   return (
-    <div>
+    <main style={{margin: "0 auto"}}>
       <form>
         <label>
           User
@@ -40,7 +40,7 @@ function App() {
         Get repos
       </button>
       {repos && <ChooseRepo user={user} token={token} repos={repos} />}
-    </div>
+    </main>
   );
 }
 

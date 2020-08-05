@@ -52,6 +52,9 @@ export function TreeView(props: TreeRendererProps) {
           width={width}
           height={height}
           className="tree-canvas"
+          onMouseLeave={() => treeRenderer?.hideSelection()}
+          onClick={() => treeRenderer?.click()}
+          onMouseMove={e => treeRenderer?.mouseMove(e)}
         ></canvas>
       </div>
     </>

@@ -1,5 +1,5 @@
-import { lerp } from "./util";
 import { Path } from "../types/Path";
+import { Vector2 } from "../types/Vector2";
 
 export class Selection {
     private selection: SVGRectElement;
@@ -13,27 +13,36 @@ export class Selection {
     hide() {
         this.selection.setAttribute('width', '0');
         this.selection.setAttribute('height', '0');
-        this.selectionTitle.textContent = '';
+        this.hideSelection();
     }
 
     show(pathOver: Path) {
         const { start, end, isMainPath, elem } = pathOver;
 
-        this.selection.setAttribute('x', start[0].toString());
-        this.selection.setAttribute('y', start[1].toString());
-        this.selection.setAttribute('width', (end[0] - start[0]).toString());
-        this.selection.setAttribute('height', (end[1] - start[1]).toString());
+        this.selection.setAttribute('x', start.x.toString());
+        this.selection.setAttribute('y', start.y.toString());
+        this.selection.setAttribute('width', (end.x - start.x).toString());
+        this.selection.setAttribute('height', (end.y - start.y).toString());
 
         if (isMainPath) {
-            this.displayText(start, end, elem);
+            this.displayText(elem.path, start, end);
+        } else {
+            this.hideSelection();
         }
     }
 
-    private displayText(start: number[], end: number[], elem: any) {
-        console.log(elem);
-        this.selectionTitle.textContent = elem.__path__;
-        this.selectionTitle.setAttribute('x', lerp(start[0], end[0], 0.5).toString());
-        this.selectionTitle.setAttribute('y', lerp(start[1], end[1], 0.5).toString());
+    private displayText(text: string, start: Vector2, end: Vector2) {
+        // console.log(elem);
+        const pos = start.lerp(end, 0.5);
+
+        this.selectionTitle.textContent = text;
+        this.selectionTitle.setAttribute('x', pos.x.toString());
+        this.selectionTitle.setAttribute('y', pos.y.toString());
+        console.log(this.selectionTitle.getComputedTextLength());
+    }
+
+    private hideSelection() {
+        this.selectionTitle.textContent = '';
     }
 
 }
