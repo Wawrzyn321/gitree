@@ -1,0 +1,28 @@
+.collapsible-panel {
+    .title {
+    display: flex;
+    justify-content: space-between;
+    cursor: pointer;
+  }
+
+  .content {
+    overflow: hidden;
+    transition: max-height 0.4s;
+    border-top: 1px solid;
+
+    &.collapsed {
+      max-height: 0;
+    }
+
+    &.expanded {
+      max-height: 500px;
+    }
+
+    button {
+      margin-top: 12px;
+      width: 50%;
+      margin-left: 25%;
+      margin-right: 25%;
+    }
+  }
+}

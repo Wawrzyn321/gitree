@@ -1,0 +1,33 @@
+.sidebar {
+  $width: 300px;
+
+  position: fixed;
+  top: 0;
+  height: 100%;
+
+  margin: 0;
+  padding: 8px;
+
+  width: $width;
+  transition: right 0.5s;
+
+  background-color: white;
+  border-left: 1px solid black;
+
+  &.collapsed {
+    right: -$width;
+  }
+
+  &.expanded {
+    right: 0;
+  }
+
+  & > button {
+    position: absolute;
+    left: -54px;
+  }
+
+  button > svg {
+    margin-right: 4px;
+  }
+}

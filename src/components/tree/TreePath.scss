@@ -1,0 +1,23 @@
+.link {
+    background: white;
+    color: blue;
+}
+
+.tree-path {
+    text-align: center;
+
+    & > button:not(:last-of-type) {
+        margin-right: 0;
+
+        &::after {
+            content: '/';
+            margin-left: 8px;
+            color: black;
+        }
+    }
+
+    p {
+        margin-top: 0;
+        font-style: italic;
+    }
+}

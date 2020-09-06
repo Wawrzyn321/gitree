@@ -1,0 +1,22 @@
+.tree-panel {
+    margin-top: 16px;
+
+    .controls {
+        display: flex;
+        justify-content: space-evenly;
+
+        button {
+            width: 40%;
+        }
+    }
+
+    .node-panel {
+        h5 {
+            margin-bottom: 0;
+        }
+
+        p {
+            margin-top: 0;
+        }
+    }
+}

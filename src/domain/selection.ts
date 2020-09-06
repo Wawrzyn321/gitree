@@ -1,19 +1,25 @@
+import { Node } from './../types/Node';
 import { Path } from "../types/Path";
 import { Vector2 } from "../types/Vector2";
+
+export type SelectionCallback = (node: Node | null) => void;
 
 export class Selection {
     private selection: SVGRectElement;
     private selectionTitle: SVGTextElement;
+    private callback: SelectionCallback;
 
-    constructor(selection: SVGRectElement, selectionTitle: SVGTextElement) {
+    constructor(selection: SVGRectElement, selectionTitle: SVGTextElement, callback: SelectionCallback) {
         this.selection = selection;
         this.selectionTitle = selectionTitle;
+        this.callback = callback;
     }
 
     hide() {
         this.selection.setAttribute('width', '0');
         this.selection.setAttribute('height', '0');
         this.hideSelection();
+        this.callback(null);
     }
 
     show(pathOver: Path) {
@@ -25,20 +31,23 @@ export class Selection {
         this.selection.setAttribute('height', (end.y - start.y).toString());
 
         if (isMainPath) {
-            this.displayText(elem.path, start, end);
+            this.tryDisplayText(elem.path, start, end);
         } else {
             this.hideSelection();
         }
+        this.callback(elem);
     }
 
-    private displayText(text: string, start: Vector2, end: Vector2) {
-        // console.log(elem);
-        const pos = start.lerp(end, 0.5);
-
+    private tryDisplayText(text: string, start: Vector2, end: Vector2) {
         this.selectionTitle.textContent = text;
-        this.selectionTitle.setAttribute('x', pos.x.toString());
-        this.selectionTitle.setAttribute('y', pos.y.toString());
-        console.log(this.selectionTitle.getComputedTextLength());
+        const textLength = this.selectionTitle.getComputedTextLength();
+        if (end.x - start.x < textLength) {
+            this.hideSelection();
+        } else {
+            const pos = start.lerp(end, 0.5);
+            this.selectionTitle.setAttribute('x', pos.x.toString());
+            this.selectionTitle.setAttribute('y', pos.y.toString());
+        }
     }
 
     private hideSelection() {

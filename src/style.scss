@@ -1,4 +1,37 @@
-#root {
-    display: flex;
-    justify-content: center;
+* {
+  box-sizing: border-box;
+}
+
+body {
+  display: flex;
+  justify-content: center;
+  width: calc(100vw - 300px);
+}
+
+// disable basic.css grid model
+section {
+  display: unset;
+  flex-flow: unset;
+}
+
+button[disabled] {
+  filter: brightness(125%);
+  cursor: not-allowed;
+  color: #bbb;
+}
+
+label,
+input,
+select {
+  display: block;
+  margin-top: 4px;
+  width: 272px;
+}
+
+canvas {
+  box-shadow: 0 0 0 1px;
+}
+
+svg[role="img"] {
+  margin-right: 8px;
 }

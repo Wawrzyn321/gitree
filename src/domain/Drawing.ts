@@ -19,13 +19,13 @@ export class Drawing {
         this.ctx.stroke();
     }
 
-    drawName(start: Vector2, end: Vector2, name: string) {
+    drawText(start: Vector2, end: Vector2, text: string) {
         const bounds = end.sub(start);
         if (bounds.x < this.minTextSize || bounds.y < this.minTextSize) {
             return;
         }
 
-        const width = this.ctx.measureText(name).width * this.textMargin;
+        const width = this.ctx.measureText(text).width * this.textMargin;
         let rotation = 0;
         let scale = 1;
         if (bounds.x < width) {
@@ -55,11 +55,11 @@ export class Drawing {
         this.ctx.translate(pos.x, pos.y);
         this.ctx.rotate(rotation);
         this.ctx.scale(scale, scale);
-        this.ctx.fillText(name, 0, 0);
+        this.ctx.fillText(text, 0, 0);
         this.ctx.restore();
     }
 
-    drawPath(start: Vector2, end: Vector2): Path2D {
+    drawRectPath(start: Vector2, end: Vector2): Path2D {
         const shape = new Path2D();
 
         this.ctx.beginPath();

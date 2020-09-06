@@ -2,22 +2,24 @@ import { GithubFile } from './../types/GithubFile';
 import { Node } from '../types/Node';
 
 const deflattenTree = (files: GithubFile[]) => {
-  const tree = new Node('root', '/', 'dirs')
-  for (const t of files) {
-    const tokens = t.path.split("/");
+  const tree = new Node('', '/', null, 'dirs');
+  for (const file of files) {
+    const tokens = file.path.split("/");
     let curr: Node = tree;
+    let path: string = '/';
     // build path
     for (let i = 0; i < tokens.length - 1; i++) {
       const token = tokens[i];
       let nextNode = curr.elements.find((n: Node) => n.path === token);
       if (!nextNode) {
-        nextNode = new Node(token, '/', 'dir');
+        nextNode = new Node(token, path, curr, 'dir');
         curr.elements.push(nextNode);
       }
       curr = nextNode;
+      path += token + '/';
     }
 
-    curr.elements.push(new Node(tokens[tokens.length - 1], t.path, 'file', t.size, true));
+    curr.elements.push(new Node(tokens[tokens.length - 1], file.path, curr, 'file', file.size, true));
   }
   return tree;
 };
@@ -45,7 +47,7 @@ export const partition = (node: Node): Node[] | null => {
   // "as equal in __size__ as possible"
   const buckets: Node[] = Array(2)
     .fill(0)
-    .map(() => new Node('PARTITION OF ' + node.path, '', 'dirs', 0, false));
+    .map(() => new Node('PARTITION OF ' + node.path, '', node, 'dirs', 0, false));
 
   const obj = node.elements;
 
