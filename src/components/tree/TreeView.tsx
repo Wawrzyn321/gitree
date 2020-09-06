@@ -21,8 +21,7 @@ export function TreeView({ width, height }: TreeViewProps) {
   const { tree, mainNode, renderer } = state.treeData;
 
   const canvasRef = React.useRef<HTMLCanvasElement>(null);
-  const selectionRef = React.useRef<SVGRectElement>(null);
-  const selectionTitleRef = React.useRef<SVGTextElement>(null);
+  const frontCanvasRef = React.useRef<HTMLCanvasElement>(null);
   const linkRef = React.useRef<HTMLAnchorElement>(null);
 
   React.useEffect(() => {
@@ -30,8 +29,7 @@ export function TreeView({ width, height }: TreeViewProps) {
       setRenderer(
         new TreeRenderer(
           canvasRef.current,
-          selectionRef.current!,
-          selectionTitleRef.current!,
+          frontCanvasRef.current!,
           linkRef.current!,
           setHoveredNode,
           setMainNode,
@@ -47,11 +45,8 @@ export function TreeView({ width, height }: TreeViewProps) {
   return (
     <>
       <div className="tree-view-container">
-        {mainNode && <NodeLink node={mainNode} _ref={linkRef}/>}
-        <svg width={width} height={height}>
-          <rect ref={selectionRef} />
-          <text ref={selectionTitleRef} />
-        </svg>
+        {mainNode && <NodeLink node={mainNode} _ref={linkRef} />}
+        <canvas ref={frontCanvasRef} width={width} height={height}></canvas>
         <canvas
           ref={canvasRef}
           width={width}

@@ -23,19 +23,14 @@ export class TreeRenderer {
     private readonly maxLevels = 25;
     private setCurrentNode: SelectionCallback;
 
-    private get canvasSize(): Vector2 {
-        return new Vector2(this.canvas.width, this.canvas.height);
-    }
-
     constructor(canvas: HTMLCanvasElement,
-        selection: SVGRectElement,
-        selectionTitle: SVGTextElement,
+        frontCanvas: HTMLCanvasElement,
         linkRef: HTMLAnchorElement,
         hoverCallback: SelectionCallback,
         currentNodeCallback: SelectionCallback) {
         this.canvas = canvas;
         this.linkRef = linkRef;
-        this.selection = new Selection(selection, selectionTitle, hoverCallback);
+        this.selection = new Selection(frontCanvas, hoverCallback);
         this.drawing = new Drawing(this.canvas.getContext('2d')!);
 
         this.currentNode = null;
@@ -75,6 +70,7 @@ export class TreeRenderer {
 
     hideSelection() {
         this.selection.hide();
+        this.currentPath = null;
     }
 
     draw(node: Node) {
@@ -88,14 +84,15 @@ export class TreeRenderer {
         this.allPaths = [];
         this.firstLevelPaths = [];
         this.subdivPaths = [];
-        this.drawing.fillArea(Vector2.zero, this.canvasSize, 'white');
+        this.drawing.clear();
 
         node.firstFlag = false;
         for (const e of node.elements) {
             e.firstFlag = true;
         }
 
-        this.drawSegment(node, Vector2.zero, this.canvasSize, 0);
+        const canvasSize = new Vector2(this.canvas.width, this.canvas.height);
+        this.drawSegment(node, Vector2.zero, canvasSize, 0);
     }
 
     private drawSegment(node: Node, startPoint: Vector2, endPoint: Vector2, depth: number) {
@@ -104,7 +101,7 @@ export class TreeRenderer {
         node = node.skipSingleDirs();
 
         if (node.isLeaf) {
-            this.drawing.drawText(startPoint, endPoint, node.path);
+            this.drawing.drawNodeText(startPoint, endPoint, node.path);
             if (depth !== 1) {
                 this.linkRef.style.display = `none`;
                 const shape = this.drawing.drawRectPath(startPoint, endPoint);
