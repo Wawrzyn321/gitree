@@ -1,5 +1,5 @@
-import { GithubFile } from './../types/GithubFile';
 import { Node } from '../types/Node';
+import { GithubFile } from '../api/apiTypes';
 
 const deflattenTree = (files: GithubFile[]) => {
   const tree = new Node('', '/', null, 'dirs');

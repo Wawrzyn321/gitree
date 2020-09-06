@@ -14,20 +14,21 @@ export function UserDataForm() {
       <label>
         User
         <input
+          required
           type="text"
           value={name}
           onChange={(e) => setUser(e.target.value)}
         />
       </label>
       <label>
-        Github token
+        Github token (optional)
         <input
           type="password"
           value={token}
           onChange={(e) => setToken(e.target.value)}
         />
       </label>
-      <button type="button" disabled={!name || !token} onClick={getRepos}>
+      <button type="button" disabled={!name} onClick={getRepos}>
         Get repos
       </button>
     </section>

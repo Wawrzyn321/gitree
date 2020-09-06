@@ -1,8 +1,7 @@
 import { TreeRenderer } from "../domain/TreeRenderer";
-import { Branch } from "../types/GithubFile";
+import { Branch } from "../types/Branch";
 
-export 
-interface AppState {
+export interface AppState {
   userData: {
     name: string;
     token: string;
@@ -26,6 +25,7 @@ interface AppState {
   };
   treeData: {
     files: string[];
+    truncated: boolean;
     tree: Node | null;
     hoveredNode: Node | null;
     renderer: TreeRenderer | null;

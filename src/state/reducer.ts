@@ -121,18 +121,19 @@ export const reducer = (state: any, action: any) => {
         },
       };
     case actions.BUILD_TREE:
-      const { tree, files, error } = action;
+      const { tree, files, error, truncated } = action;
       return {
         ...state,
         branchData: {
           ...state.branchData,
           loading: false,
           error,
-          collapsed: !error,
+          collapsed: !error && !truncated,
         },
         treeData: {
           files,
           tree,
+          truncated,
           mainNode: tree,
           hoveredNode: null,
         },

@@ -1,52 +1,50 @@
-import { GithubFile, Branch } from "../types/GithubFile";
-import { GithubRepository, GithubBranch, GithubTreeNode } from "./ApiTypes";
+import { Branch } from "../types/Branch";
+import { GithubRepository, GithubBranch, GithubTreeNode, PossiblyTruncatedFiles } from "./apiTypes";
 
-export const fetchRepos = async (user: string, token: string): Promise<string[]> => {
-  const url = `https://api.github.com/users/${user}/repos`;
-  const response = await fetch(url, {
+const apiUrl = 'https://api.github.com';
+
+const makeHeaders = (user: string, token?: string) => {
+  if (!token) {
+    return {}
+  }
+  return {
     headers: {
       Authorization: "Basic " + btoa(`${user}:${token}`),
     },
-  });
+  }
+}
+
+const processResponse = async <T>(response: Response, fn: (t: any) => T) => {
   if (response.ok) {
-    const json = await response.json();
-    return json.map((repo: GithubRepository) => repo.name);
+    return fn(await response.json());
   } else {
     const error = JSON.parse(await response.text());
     throw Error(error.message);
   }
+}
+
+export const fetchRepos = async (user: string, token?: string): Promise<string[]> => {
+  const url = `${apiUrl}/users/${user}/repos`;
+  const response = await fetch(url, makeHeaders(user, token));
+
+  return processResponse<string[]>(response, (json: any) => json.map((repo: GithubRepository) => repo.name));
 };
 
-export const fetchBranches = async (user: string, token: string, repo: string): Promise<Branch[]> => {
-  const url = `https://api.github.com/repos/${user}/${repo}/branches`
-  const response = await fetch(url, {
-    headers: {
-      Authorization: "Basic " + btoa(`${user}:${token}`),
-    },
-  });
-  if (response.ok) {
-    const json = await response.json();
-    return json.map((b: GithubBranch) => ({ name: b.name, commitSha: b.commit.sha }));
-  } else {
-    const error = JSON.parse(await response.text());
-    throw Error(error.message);
-  }
+export const fetchBranches = async (user: string, token: string | undefined, repo: string): Promise<Branch[]> => {
+  const url = `${apiUrl}/repos/${user}/${repo}/branches`
+  const response = await fetch(url, makeHeaders(user, token));
+
+  return processResponse<Branch[]>(response, (json: any) => json.map((branch: GithubBranch) => ({ name: branch.name, commitSha: branch.commit.sha })));
 };
 
-export const fetchFiles = async (user: string, token: string, repo: string, sha: string, ): Promise<GithubFile[]> => {
-  const url = `https://api.github.com/repos/${user}/${repo}/git/trees/${sha}?recursive=true`;
-  const response = await fetch(url, {
-    headers: {
-      Authorization: "Basic " + btoa(`${user}:${token}`),
-    },
+export const fetchFiles = async (user: string, token: string | undefined, repo: string, sha: string, ): Promise<PossiblyTruncatedFiles> => {
+  const url = `${apiUrl}/repos/${user}/${repo}/git/trees/${sha}?recursive=true`;
+  const response = await fetch(url, makeHeaders(user, token));
+
+  return processResponse<PossiblyTruncatedFiles>(response, (json: any) => {
+    const files = json.tree
+      .filter((node: GithubTreeNode) => node.type === 'blob')
+      .map((node: GithubTreeNode) => ({ path: node.path, size: node.size }));
+    return { files, truncated: json.trucated };
   });
-  if (response.ok) {
-    const json = await response.json();
-    return json.tree
-      .filter((t: GithubTreeNode) => t.type === 'blob')
-      .map((t: GithubTreeNode) => ({ path: t.path, size: t.size }));
-  } else {
-    const error = JSON.parse(await response.text());
-    throw Error(error.message);
-  }
 };

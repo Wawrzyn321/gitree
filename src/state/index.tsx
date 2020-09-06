@@ -1,6 +1,6 @@
 import React from "react";
 
-import { Branch } from "../types/GithubFile";
+import { Branch } from "../types/Branch";
 import { Node } from "../types/Node";
 
 import { readFromStorage, saveToStorage } from "../domain/storage";
@@ -36,6 +36,7 @@ const initialState: AppState = {
   },
   treeData: {
     files: [],
+    truncated: false,
     tree: null,
     hoveredNode: null,
     renderer: null,
@@ -108,12 +109,18 @@ export const Provider = (a: any) => {
       const { repo } = state.repoData;
       const { branch } = state.branchData;
       try {
-        const files = await fetchFiles(name, token, repo, branch!.commitSha);
+        const { files, truncated } = await fetchFiles(
+          name,
+          token,
+          repo,
+          branch!.commitSha
+        );
         dispatch({
           type: actions.BUILD_TREE,
           error: "",
           files,
           tree: buildTree(files),
+          truncated,
         });
       } catch (e) {
         dispatch({
@@ -139,8 +146,11 @@ export const Provider = (a: any) => {
       const user = state.userData.name;
       const repo = state.repoData.repo;
       const branch = state.branchData.branch;
-      return `https://github.com/${user}/${repo}/tree/${branch!.name}/${node.dirPath}`;
-    }
+      if (!branch) return;
+      return `https://github.com/${user}/${repo}/tree/${branch!.name}/${
+        node.dirPath
+      }`;
+    },
   };
 
   return (

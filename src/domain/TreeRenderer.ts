@@ -60,7 +60,8 @@ export class TreeRenderer {
         }
     }
 
-    click() {
+    click(e: MouseEvent) {
+        e.preventDefault(); // stop selecting sorrounding texts
         if (this.currentPath === null) return;
         this.draw(this.currentPath.elem);
     }
