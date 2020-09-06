@@ -10,6 +10,7 @@ import { lerp } from './util';
 
 export class TreeRenderer {
     private canvas: HTMLCanvasElement;
+    private linkRef: HTMLAnchorElement;
     private selection: Selection;
     private drawing: Drawing;
     private currentNode: Node | null;
@@ -20,19 +21,25 @@ export class TreeRenderer {
     private currentPath: Path | null = null;
 
     private readonly maxLevels = 25;
-    private currentNodeCallback: SelectionCallback;
+    private setCurrentNode: SelectionCallback;
 
     private get canvasSize(): Vector2 {
         return new Vector2(this.canvas.width, this.canvas.height);
     }
 
-    constructor(canvas: HTMLCanvasElement, selection: SVGRectElement, selectionTitle: SVGTextElement, hoverCallback: SelectionCallback, currentNodeCallback: SelectionCallback) {
+    constructor(canvas: HTMLCanvasElement,
+        selection: SVGRectElement,
+        selectionTitle: SVGTextElement,
+        linkRef: HTMLAnchorElement,
+        hoverCallback: SelectionCallback,
+        currentNodeCallback: SelectionCallback) {
         this.canvas = canvas;
+        this.linkRef = linkRef;
         this.selection = new Selection(selection, selectionTitle, hoverCallback);
         this.drawing = new Drawing(this.canvas.getContext('2d')!);
 
         this.currentNode = null;
-        this.currentNodeCallback = currentNodeCallback;
+        this.setCurrentNode = currentNodeCallback;
     }
 
     private getPathOverType(e: any): Path[] {
@@ -74,21 +81,21 @@ export class TreeRenderer {
         if (this.currentNode === node) return;
 
         this.currentNode = node;
-        this.currentNodeCallback(node);
+        this.setCurrentNode(node);
 
         this.selection.hide();
 
         this.allPaths = [];
         this.firstLevelPaths = [];
         this.subdivPaths = [];
-        this.drawing.fillArea(new Vector2(0, 0), this.canvasSize, 'white');
+        this.drawing.fillArea(Vector2.zero, this.canvasSize, 'white');
 
         node.firstFlag = false;
         for (const e of node.elements) {
             e.firstFlag = true;
         }
 
-        this.drawSegment(node, new Vector2(0, 0), this.canvasSize, 0);
+        this.drawSegment(node, Vector2.zero, this.canvasSize, 0);
     }
 
     private drawSegment(node: Node, startPoint: Vector2, endPoint: Vector2, depth: number) {
@@ -99,8 +106,17 @@ export class TreeRenderer {
         if (node.isLeaf) {
             this.drawing.drawText(startPoint, endPoint, node.path);
             if (depth !== 1) {
+                this.linkRef.style.display = `none`;
                 const shape = this.drawing.drawRectPath(startPoint, endPoint);
                 this.allPaths.push(new Path(shape, node, startPoint, endPoint, false));
+            } else {
+                const text = node.path;
+                const size = this.drawing.measureText(text);
+                const x = lerp(0, this.canvas.width, 0.5) + size.width;
+                const y = lerp(0, this.canvas.height, 0.5);
+                this.linkRef.style.display = `inline`;
+                this.linkRef.style.left = `${x + 8}px`;
+                this.linkRef.style.top = `${y - 14}px`;
             }
             return;
         }

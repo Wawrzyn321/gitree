@@ -3,7 +3,12 @@
   display: flex;
   margin-top: 24px;
 
-  svg {
+  a {
+    position: absolute;
+    display: none;
+  }
+
+  & > svg {
     position: absolute;
     z-index: 1000;
     pointer-events: none;

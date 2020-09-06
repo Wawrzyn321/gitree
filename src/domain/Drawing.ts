@@ -12,20 +12,24 @@ export class Drawing {
         this.ctx.textBaseline = "middle";
     }
 
-    drawLine(from: Vector2, to: Vector2) {
+    drawLine(from: Vector2, to: Vector2): void {
         this.ctx.beginPath();
         this.ctx.moveTo(from.x, from.y);
         this.ctx.lineTo(to.x, to.y);
         this.ctx.stroke();
     }
 
-    drawText(start: Vector2, end: Vector2, text: string) {
+    measureText(text: string): TextMetrics {
+        return this.ctx.measureText(text);
+    }
+
+    drawText(start: Vector2, end: Vector2, text: string): void {
         const bounds = end.sub(start);
         if (bounds.x < this.minTextSize || bounds.y < this.minTextSize) {
             return;
         }
 
-        const width = this.ctx.measureText(text).width * this.textMargin;
+        const width = this.measureText(text).width * this.textMargin;
         let rotation = 0;
         let scale = 1;
         if (bounds.x < width) {
@@ -70,7 +74,7 @@ export class Drawing {
         return shape;
     }
 
-    fillArea(start: Vector2, end: Vector2, color: string) {
+    fillArea(start: Vector2, end: Vector2, color: string): void {
         const size = end.sub(start);
 
         this.ctx.fillStyle = color

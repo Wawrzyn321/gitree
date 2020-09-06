@@ -1,4 +1,8 @@
 export class Vector2 {
+    static get zero(): Vector2 {
+        return new Vector2(0, 0);
+    }
+
     get length(): number {
         return Math.sqrt(this.x * this.x + this.y * this.y);
     }
