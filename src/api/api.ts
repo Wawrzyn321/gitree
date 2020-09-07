@@ -45,6 +45,6 @@ export const fetchFiles = async (owner: string, token: string | undefined, repo:
     const files = json.tree
       .filter((node: GitHubTreeNode) => node.type === 'blob')
       .map((node: GitHubTreeNode) => ({ path: node.path, size: node.size }));
-    return { files, truncated: json.trucated };
+    return { files, truncated: json.truncated };
   });
 };
