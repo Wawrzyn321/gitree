@@ -56,6 +56,9 @@ export const Provider = (a: any) => {
   );
   const value = {
     state,
+    setOwnerFormCollapsed: (collapsed: boolean) => {
+      dispatch({ type: actions.SET_OWNER_FORM_COLLAPSED, collapsed });
+    },
     setOwner: (name: string) => {
       dispatch({ type: actions.SET_OWNER, name });
     },
@@ -79,6 +82,9 @@ export const Provider = (a: any) => {
       }
     },
 
+    setRepoFormCollapsed: (collapsed: boolean) => {
+      dispatch({ type: actions.SET_REPO_FORM_COLLAPSED, collapsed });
+    },
     setRepo: (repo: string) => {
       dispatch({ type: actions.SET_REPO, repo });
     },
@@ -103,6 +109,9 @@ export const Provider = (a: any) => {
       }
     },
 
+    setBranchFormCollapsed: (collapsed: boolean) => {
+      dispatch({ type: actions.SET_BRANCH_FORM_COLLAPSED, collapsed });
+    },
     setBranch: (branch: string) => {
       dispatch({ type: actions.SET_BRANCH, branch });
     },

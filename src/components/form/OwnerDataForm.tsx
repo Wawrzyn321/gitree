@@ -3,7 +3,7 @@ import { GitreeContext } from "../../state";
 import { FormPanel } from "./FormPanel";
 
 export function OwnerDataForm() {
-  const { state, setOwner, setToken, getRepos } = React.useContext(
+  const { state, setOwner, setOwnerFormCollapsed, setToken, getRepos } = React.useContext(
     GitreeContext
   );
   const { name, token, loading, collapsed, error } = state.ownerData;
@@ -37,6 +37,7 @@ export function OwnerDataForm() {
   return (
     <FormPanel
       collapsed={collapsed}
+      setCollapsed={setOwnerFormCollapsed}
       loading={loading}
       error={error}
       isOk={repos && repos.length}

@@ -2,6 +2,17 @@ import { actions } from "./actions";
 
 export const reducer = (state: any, action: any) => {
   switch (action.type) {
+    case actions.SET_OWNER_FORM_COLLAPSED:
+      {
+        const { collapsed } = action;
+        return {
+          ...state,
+          ownerData: {
+            ...state.ownerData,
+            collapsed,
+          }
+        }
+      }
     case actions.SET_OWNER:
       const { name } = action;
       return {
@@ -56,6 +67,17 @@ export const reducer = (state: any, action: any) => {
       };
     }
 
+    case actions.SET_REPO_FORM_COLLAPSED:
+      {
+        const { collapsed } = action;
+        return {
+          ...state,
+          repoData: {
+            ...state.repoData,
+            collapsed,
+          }
+        }
+      }
     case actions.SET_REPO:
       const { repo } = action;
       return {
@@ -103,6 +125,17 @@ export const reducer = (state: any, action: any) => {
       };
     }
 
+    case actions.SET_BRANCH_FORM_COLLAPSED:
+      {
+      const { collapsed } = action;
+      return {
+        ...state,
+        branchData: {
+          ...state.branchData,
+          collapsed,
+        }
+      }
+    }
     case actions.SET_BRANCH:
       const { branch } = action;
       return {
