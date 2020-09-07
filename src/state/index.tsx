@@ -17,7 +17,7 @@ const TOKEN_KEY = "token";
 
 const initialState: AppState = {
   ownerData: {
-    name: readFromStorage(localStorage, OWNER_KEY) || "",
+    owner: readFromStorage(localStorage, OWNER_KEY) || "",
     token: readFromStorage(sessionStorage, TOKEN_KEY) || "",
     loading: false,
     error: "",
@@ -59,20 +59,29 @@ export const Provider = (a: any) => {
     setOwnerFormCollapsed: (collapsed: boolean) => {
       dispatch({ type: actions.SET_OWNER_FORM_COLLAPSED, collapsed });
     },
-    setOwner: (name: string) => {
-      dispatch({ type: actions.SET_OWNER, name });
+    setOwner: (owner: string) => {
+      dispatch({ type: actions.SET_OWNER, owner });
     },
     setToken: (token: string) => {
       dispatch({ type: actions.SET_TOKEN, token });
     },
     getRepos: async () => {
       dispatch({ type: actions.FETCH_REPOS });
-      const { name, token } = state.ownerData;
+      const { owner, token } = state.ownerData;
       try {
-        const repos = await fetchRepos(name, token);
-        dispatch({ type: actions.SET_REPOS, error: "", repos });
-        saveToStorage(localStorage, OWNER_KEY, name);
-        saveToStorage(sessionStorage, TOKEN_KEY, token);
+        const repos = await fetchRepos(owner, token);
+        if (!repos.length) {
+          dispatch({
+            type: actions.SET_REPOS,
+            error:
+              "This user appears to have no repos. Why don't you try another one?",
+            repos,
+          });
+        } else {
+          dispatch({ type: actions.SET_REPOS, error: "", repos });
+          saveToStorage(localStorage, OWNER_KEY, owner);
+          saveToStorage(sessionStorage, TOKEN_KEY, token);
+        }
       } catch (e) {
         dispatch({
           type: actions.SET_REPOS,
@@ -90,16 +99,25 @@ export const Provider = (a: any) => {
     },
     getBranches: async () => {
       dispatch({ type: actions.FETCH_BRANCHES });
-      const { name, token } = state.ownerData;
+      const { owner, token } = state.ownerData;
       const { repo } = state.repoData;
       try {
-        const branches = await fetchBranches(name, token, repo);
-        dispatch({
-          type: actions.SET_BRANCHES,
-          error: "",
-          branches,
-          branch: branches.find((b: Branch) => (b.name = "master")),
-        });
+        const branches = await fetchBranches(owner, token, repo);
+        if (!branches.length) {
+          dispatch({
+            type: actions.SET_BRANCHES,
+            error:
+              "This repo appears to have no branches. Why don't you try another one?",
+            branches,
+          });
+        } else {
+          dispatch({
+            type: actions.SET_BRANCHES,
+            error: "",
+            branches,
+            branch: branches.find((b: Branch) => (b.name = "master")),
+          });
+        }
       } catch (e) {
         dispatch({
           type: actions.SET_BRANCHES,
@@ -117,12 +135,12 @@ export const Provider = (a: any) => {
     },
     buildTree: async () => {
       dispatch({ type: actions.FETCH_FILES });
-      const { name, token } = state.ownerData;
+      const { owner, token } = state.ownerData;
       const { repo } = state.repoData;
       const { branch } = state.branchData;
       try {
         const { files, truncated } = await fetchFiles(
-          name,
+          owner,
           token,
           repo,
           branch!.commitSha
@@ -155,7 +173,7 @@ export const Provider = (a: any) => {
     },
     // it should be an action, but having all the state here, it's too enticing...
     getUrl: (node: Node) => {
-      const owner = state.ownerData.name;
+      const owner = state.ownerData.owner;
       const repo = state.repoData.repo;
       const branch = state.branchData.branch;
       if (!branch) return;

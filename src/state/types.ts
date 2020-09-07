@@ -3,7 +3,7 @@ import { Branch } from "../types/Branch";
 
 export interface AppState {
   ownerData: {
-    name: string;
+    owner: string;
     token: string;
     error: string;
     loading: boolean;

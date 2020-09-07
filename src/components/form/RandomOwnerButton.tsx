@@ -26,14 +26,14 @@ const style = {
 
 export function RandomOwnerButton() {
   const { state, setOwner } = React.useContext(GitreeContext);
-  const { name } = state.ownerData;
+  const { owner } = state.ownerData;
 
   const setRandomOwner = (e: any) => {
     e.preventDefault();
     let nextOwner;
     do {
       nextOwner = owners[Math.floor(Math.random() * owners.length)];
-    } while (name === nextOwner);
+    } while (owner === nextOwner);
     setOwner(nextOwner);
   };
 

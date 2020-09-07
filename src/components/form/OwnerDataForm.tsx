@@ -7,7 +7,7 @@ export function OwnerDataForm() {
   const { state, setOwner, setOwnerFormCollapsed, setToken, getRepos } = React.useContext(
     GitreeContext
   );
-  const { name, token, loading, collapsed, error } = state.ownerData;
+  const { owner, token, loading, collapsed, error } = state.ownerData;
   const { repos } = state.repoData;
 
   const form = (
@@ -17,7 +17,7 @@ export function OwnerDataForm() {
         <input
           required
           type="text"
-          value={name}
+          value={owner}
           onChange={(e) => setOwner(e.target.value)}
         />
       </label>
@@ -29,7 +29,7 @@ export function OwnerDataForm() {
           onChange={(e) => setToken(e.target.value)}
         />
       </label>
-      <button type="button" disabled={!name} onClick={getRepos}>
+      <button type="button" disabled={!owner} onClick={getRepos}>
         Get repos
       </button>
     </section>

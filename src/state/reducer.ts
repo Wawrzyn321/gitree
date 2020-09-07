@@ -14,12 +14,13 @@ export const reducer = (state: any, action: any) => {
         }
       }
     case actions.SET_OWNER:
-      const { name } = action;
+      const { owner } = action;
       return {
         ...state,
         ownerData: {
           ...state.ownerData,
-          name,
+          collapsed: false,
+          owner,
         },
       };
     case actions.SET_TOKEN:
