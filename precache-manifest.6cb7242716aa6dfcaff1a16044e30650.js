@@ -1,6 +1,6 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "0f1aeb41cc3650a88325db21e9c540c3",
+    "revision": "20d4825e6669b2e972243568d34391c1",
     "url": "/gitree/index.html"
   },
   {
@@ -8,7 +8,7 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/gitree/static/css/2.bab5d168.chunk.css"
   },
   {
-    "revision": "48ae31bc959c83c0f6ef",
+    "revision": "64c1cac70e9e899f41a4",
     "url": "/gitree/static/css/main.1c3af458.chunk.css"
   },
   {
@@ -20,8 +20,8 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/gitree/static/js/2.50e863b6.chunk.js.LICENSE.txt"
   },
   {
-    "revision": "48ae31bc959c83c0f6ef",
-    "url": "/gitree/static/js/main.5b71c6ca.chunk.js"
+    "revision": "64c1cac70e9e899f41a4",
+    "url": "/gitree/static/js/main.88faedc1.chunk.js"
   },
   {
     "revision": "0a0a3f0531dda5b23128",
