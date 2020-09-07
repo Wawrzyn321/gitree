@@ -38,7 +38,7 @@ export function BranchForm() {
       </section>
       {truncated && (
         <p>
-          It looks like Github API response is truncated. Provide your API token
+          It looks like GitHub API response is truncated. Provide your API token
           to fetch all the data.
         </p>
       )}

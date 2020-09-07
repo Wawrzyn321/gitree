@@ -1,0 +1,17 @@
+.help-banner {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    padding-top:32px;
+
+    & > * {
+        text-align: center;
+        margin-right: auto;
+        margin-left: auto;
+        max-width: 20em;
+    }
+
+    p {
+        font-size: 120%;
+    }
+}

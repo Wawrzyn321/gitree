@@ -21,7 +21,7 @@ export function UserDataForm() {
         />
       </label>
       <label>
-        Github token (optional)
+        GitHub token (optional)
         <input
           type="password"
           value={token}

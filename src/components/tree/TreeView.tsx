@@ -5,6 +5,7 @@ import { TreeRenderer } from "../../domain/TreeRenderer";
 import { TreePath } from "./TreePath";
 import "./TreeView.scss";
 import { NodeLink } from "./NodeLink";
+import { HelpBanner } from "./HelpBanner";
 
 interface TreeViewProps {
   width: number;
@@ -12,12 +13,9 @@ interface TreeViewProps {
 }
 
 export function TreeView({ width, height }: TreeViewProps) {
-  const {
-    state,
-    setHoveredNode,
-    setMainNode,
-    setRenderer,
-  } = React.useContext(GitreeContext);
+  const { state, setHoveredNode, setMainNode, setRenderer } = React.useContext(
+    GitreeContext
+  );
   const { tree, mainNode, renderer } = state.treeData;
 
   const canvasRef = React.useRef<HTMLCanvasElement>(null);
@@ -32,7 +30,7 @@ export function TreeView({ width, height }: TreeViewProps) {
           frontCanvasRef.current!,
           linkRef.current!,
           setHoveredNode,
-          setMainNode,
+          setMainNode
         )
       );
     }
@@ -41,10 +39,11 @@ export function TreeView({ width, height }: TreeViewProps) {
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
   React.useEffect(() => renderer?.draw(mainNode), [mainNode, renderer]);
-  
+
   return (
     <>
       <div className="tree-view-container">
+        {!mainNode && <HelpBanner />}
         {mainNode && <NodeLink node={mainNode} _ref={linkRef} />}
         <canvas ref={frontCanvasRef} width={width} height={height}></canvas>
         <canvas

@@ -1,28 +1,28 @@
-export interface GithubFile {
+export interface GitHubFile {
     path: string;
     size: number;
 }
 
-export interface GithubTreeNode {
+export interface GitHubTreeNode {
     type: 'blob' | 'string';
     path: string;
     size: number;
 }
 
-export interface GithubRepository {
+export interface GitHubRepository {
     name: string;
 }
 
-export interface GithubCommit {
+export interface GitHubCommit {
     sha: string;
 }
 
-export interface GithubBranch {
+export interface GitHubBranch {
     name: string;
-    commit: GithubCommit;
+    commit: GitHubCommit;
 }
 
 export interface PossiblyTruncatedFiles {
-    files: GithubFile[];
+    files: GitHubFile[];
     truncated: boolean;
 }
