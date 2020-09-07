@@ -1,6 +1,7 @@
 import React from "react";
 import { GitreeContext } from "../../state";
 import { FormPanel } from "./FormPanel";
+import { RandomOwnerButton } from "./RandomOwnerButton";
 
 export function OwnerDataForm() {
   const { state, setOwner, setOwnerFormCollapsed, setToken, getRepos } = React.useContext(
@@ -12,7 +13,7 @@ export function OwnerDataForm() {
   const form = (
     <section>
       <label>
-        User/organisation
+        User/organisation <RandomOwnerButton />
         <input
           required
           type="text"
