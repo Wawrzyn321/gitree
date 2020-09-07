@@ -24,14 +24,14 @@ const processResponse = async <T>(response: Response, fn: (t: any) => T) => {
 }
 
 export const fetchRepos = async (owner: string, token?: string): Promise<string[]> => {
-  const url = `${apiUrl}/users/${owner}/repos`;
+  const url = `${apiUrl}/users/${owner}/repos?per_page=100`;
   const response = await fetch(url, makeHeaders(owner, token));
 
   return processResponse<string[]>(response, (json: any) => json.map((repo: GitHubRepository) => repo.name));
 };
 
 export const fetchBranches = async (owner: string, token: string | undefined, repo: string): Promise<Branch[]> => {
-  const url = `${apiUrl}/repos/${owner}/${repo}/branches`
+  const url = `${apiUrl}/repos/${owner}/${repo}/branches?per_page=100`
   const response = await fetch(url, makeHeaders(owner, token));
 
   return processResponse<Branch[]>(response, (json: any) => json.map((branch: GitHubBranch) => ({ name: branch.name, commitSha: branch.commit.sha })));

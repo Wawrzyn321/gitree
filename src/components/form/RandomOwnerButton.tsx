@@ -6,7 +6,6 @@ import { GitreeContext } from "../../state";
 const owners = [
   "kubernetes",
   "apache",
-  "microsoft",
   "rust-lang",
   "dotnet",
   "nodejs",

@@ -2,3 +2,5 @@
 maybe create scrolling blurred text (fetched) for text files?
 
     scaling the canvas + collapsing right panel
+
+    currently we fetch only 100 repos / branches
