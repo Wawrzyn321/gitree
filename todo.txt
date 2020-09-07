@@ -1,0 +1,4 @@
+    background on single node - download images or svg and show them,
+maybe create scrolling blurred text (fetched) for text files?
+
+    scaling the canvas + collapsing right panel
