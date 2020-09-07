@@ -1,4 +1,4 @@
-import { Node } from './../types/Node';
+import { Node } from '../types/Node';
 import { Path } from "../types/Path";
 import { Vector2 } from "../types/Vector2";
 import { Drawing } from './Drawing';
