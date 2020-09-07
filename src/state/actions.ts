@@ -1,5 +1,5 @@
 export const actions = {
-  SET_USER: "SET_USER",
+  SET_OWNER: "SET_OWNER",
   SET_TOKEN: "SET_TOKEN",
   FETCH_REPOS: "FETCH_REPOS",
   SET_REPOS: "SET_REPOS",

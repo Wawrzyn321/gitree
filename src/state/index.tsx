@@ -12,10 +12,13 @@ import { AppState } from "./types";
 import { actions } from "./actions";
 import { reducer } from "./reducer";
 
+const OWNER_KEY = "owner";
+const TOKEN_KEY = "token";
+
 const initialState: AppState = {
-  userData: {
-    name: readFromStorage(localStorage, "user") || "",
-    token: readFromStorage(localStorage, "token") || "",
+  ownerData: {
+    name: readFromStorage(localStorage, OWNER_KEY) || "",
+    token: readFromStorage(sessionStorage, TOKEN_KEY) || "",
     loading: false,
     error: "",
     collapsed: false,
@@ -53,20 +56,20 @@ export const Provider = (a: any) => {
   );
   const value = {
     state,
-    setUser: (name: string) => {
-      dispatch({ type: actions.SET_USER, name });
+    setOwner: (name: string) => {
+      dispatch({ type: actions.SET_OWNER, name });
     },
     setToken: (token: string) => {
       dispatch({ type: actions.SET_TOKEN, token });
     },
     getRepos: async () => {
       dispatch({ type: actions.FETCH_REPOS });
-      const { name, token } = state.userData;
+      const { name, token } = state.ownerData;
       try {
         const repos = await fetchRepos(name, token);
         dispatch({ type: actions.SET_REPOS, error: "", repos });
-        saveToStorage(localStorage, "user", name);
-        saveToStorage(sessionStorage, "token", token);
+        saveToStorage(localStorage, OWNER_KEY, name);
+        saveToStorage(sessionStorage, TOKEN_KEY, token);
       } catch (e) {
         dispatch({
           type: actions.SET_REPOS,
@@ -81,7 +84,7 @@ export const Provider = (a: any) => {
     },
     getBranches: async () => {
       dispatch({ type: actions.FETCH_BRANCHES });
-      const { name, token } = state.userData;
+      const { name, token } = state.ownerData;
       const { repo } = state.repoData;
       try {
         const branches = await fetchBranches(name, token, repo);
@@ -105,7 +108,7 @@ export const Provider = (a: any) => {
     },
     buildTree: async () => {
       dispatch({ type: actions.FETCH_FILES });
-      const { name, token } = state.userData;
+      const { name, token } = state.ownerData;
       const { repo } = state.repoData;
       const { branch } = state.branchData;
       try {
@@ -143,11 +146,11 @@ export const Provider = (a: any) => {
     },
     // it should be an action, but having all the state here, it's too enticing...
     getUrl: (node: Node) => {
-      const user = state.userData.name;
+      const owner = state.ownerData.name;
       const repo = state.repoData.repo;
       const branch = state.branchData.branch;
       if (!branch) return;
-      return `https://github.com/${user}/${repo}/tree/${branch!.name}/${
+      return `https://github.com/${owner}/${repo}/tree/${branch!.name}/${
         node.dirPath
       }`;
     },

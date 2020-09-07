@@ -3,7 +3,7 @@ import React from "react";
 import { Provider } from "../state";
 
 import { TreeView } from "./tree/TreeView";
-import { UserDataForm } from "./form/UserDataForm";
+import { OwnerDataForm } from "./form/OwnerDataForm";
 import { RepoForm } from "./form/RepoForm";
 import { BranchForm } from "./form/BranchForm";
 import { TreePanel } from "./tree/TreePanel";
@@ -15,7 +15,7 @@ export default function App() {
       <TreeView width={960} height={640} />
       <Sidebar>
         <form>
-          <UserDataForm />
+          <OwnerDataForm />
           <RepoForm />
           <BranchForm />
         </form>

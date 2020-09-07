@@ -15,7 +15,7 @@ export function HelpBanner() {
       </p>
       <p>You can map a GitHub repository like in WinDirStat or SpaceSniffer.</p>
       <p>
-        Please set a GitHub username on the right panel, then follow the steps!
+        Please set a GitHub username or organisation name on the right panel, then follow the steps!
       </p>
     </div>
   );

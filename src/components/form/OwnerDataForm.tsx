@@ -2,22 +2,22 @@ import React from "react";
 import { GitreeContext } from "../../state";
 import { FormPanel } from "./FormPanel";
 
-export function UserDataForm() {
-  const { state, setUser, setToken, getRepos } = React.useContext(
+export function OwnerDataForm() {
+  const { state, setOwner, setToken, getRepos } = React.useContext(
     GitreeContext
   );
-  const { name, token, loading, collapsed, error } = state.userData;
+  const { name, token, loading, collapsed, error } = state.ownerData;
   const { repos } = state.repoData;
 
   const form = (
     <section>
       <label>
-        User
+        User/organisation
         <input
           required
           type="text"
           value={name}
-          onChange={(e) => setUser(e.target.value)}
+          onChange={(e) => setOwner(e.target.value)}
         />
       </label>
       <label>
@@ -40,7 +40,7 @@ export function UserDataForm() {
       loading={loading}
       error={error}
       isOk={repos && repos.length}
-      title="User data"
+      title="Owner data"
     >
       {form}
     </FormPanel>

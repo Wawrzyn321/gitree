@@ -2,12 +2,12 @@ import { actions } from "./actions";
 
 export const reducer = (state: any, action: any) => {
   switch (action.type) {
-    case actions.SET_USER:
+    case actions.SET_OWNER:
       const { name } = action;
       return {
         ...state,
-        userData: {
-          ...state.userData,
+        ownerData: {
+          ...state.ownerData,
           name,
         },
       };
@@ -15,16 +15,16 @@ export const reducer = (state: any, action: any) => {
       const { token } = action;
       return {
         ...state,
-        userData: {
-          ...state.userData,
+        ownerData: {
+          ...state.ownerData,
           token,
         },
       };
     case actions.FETCH_REPOS:
       return {
         ...state,
-        userData: {
-          ...state.userData,
+        ownerData: {
+          ...state.ownerData,
           loading: true,
         },
         repoData: {
@@ -32,13 +32,18 @@ export const reducer = (state: any, action: any) => {
           repos: [],
           repo: null,
         },
+        branchData: {
+          ...state.branchData,
+          branches: [],
+          branch: null,
+        }
       };
     case actions.SET_REPOS: {
       const { error, repos } = action;
       return {
         ...state,
-        userData: {
-          ...state.userData,
+        ownerData: {
+          ...state.ownerData,
           error,
           loading: false,
           collapsed: !error,

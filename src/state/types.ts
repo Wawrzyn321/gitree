@@ -2,7 +2,7 @@ import { TreeRenderer } from "../domain/TreeRenderer";
 import { Branch } from "../types/Branch";
 
 export interface AppState {
-  userData: {
+  ownerData: {
     name: string;
     token: string;
     error: string;
