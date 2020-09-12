@@ -36,7 +36,7 @@ export function TreePath() {
           key={`${node.dirPath}/${node.path}`}
           onClick={() => setMainNode(node)}
         >
-          {node.path || 'root'}
+          {node.path}
         </button>
       ))}
       <p>Tip: Press SHIFT to select individual files.</p>

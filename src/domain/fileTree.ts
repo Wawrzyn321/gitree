@@ -1,8 +1,8 @@
 import { Node } from '../types/Node';
 import { GitHubFile } from '../api/apiTypes';
 
-const deflattenTree = (files: GitHubFile[]) => {
-  const tree = new Node('', '/', null, 'dirs');
+const deflattenTree = (name: string, files: GitHubFile[]) => {
+  const tree = new Node(name, '/', null, 'dirs');
   for (const file of files) {
     const tokens = file.path.split("/");
     let curr: Node = tree;
@@ -33,8 +33,8 @@ const calculateTreeSizes = (tree: Node) => {
   return size;
 };
 
-export const buildTree = (files: GitHubFile[]) => {
-  const tree = deflattenTree(files);
+export const buildTree = (name: string, files: GitHubFile[]) => {
+  const tree = deflattenTree(name, files);
   calculateTreeSizes(tree);
   return tree;
 };

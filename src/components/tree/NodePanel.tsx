@@ -20,7 +20,7 @@ export function NodePanel({ node, showLink }: NodePanelProps) {
     <section className="node-panel">
       <h5>
         <FontAwesomeIcon color="#0090FF" icon={icon} />
-        Name: {node.path || "root"}
+        Name: {node.path}
         {showLink && <NodeLink node={node} />}
       </h5>
       <p>Size: {filesize(node.size)}</p>

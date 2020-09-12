@@ -149,7 +149,7 @@ export const Provider = (a: any) => {
           type: actions.BUILD_TREE,
           error: "",
           files,
-          tree: buildTree(files),
+          tree: buildTree(`${repo}@${branch!.name}`, files),
           truncated,
         });
       } catch (e) {
