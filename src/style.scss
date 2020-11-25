@@ -1,3 +1,8 @@
+:root {
+  --action-dark: #028b4a;
+  --action: #0090FF;
+}
+
 * {
   box-sizing: border-box;
 }
@@ -15,9 +20,13 @@ section {
 }
 
 button[disabled] {
-  filter: brightness(180%);
   cursor: not-allowed;
   color: #bbb;
+  filter: brightness(180%);
+
+  @media (prefers-color-scheme: dark) {
+    filter: brightness(75%);
+  }
 }
 
 label,
@@ -34,4 +43,10 @@ canvas {
 
 svg[role="img"] {
   margin-right: 8px;
+}
+
+@media (prefers-color-scheme: dark) {
+  button {
+      background-color: var(--action-dark);
+  }
 }

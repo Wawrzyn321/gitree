@@ -6,13 +6,12 @@ import { Drawing } from './Drawing';
 export type SelectionCallback = (node: Node | null) => void;
 
 export class Selection {
-    private callback: SelectionCallback;
+    private readonly callback: SelectionCallback;
+    private readonly drawing: Drawing;
 
-    private drawing: Drawing;
-
-    constructor(canvas: HTMLCanvasElement, callback: SelectionCallback) {
+    constructor(drawing: Drawing, callback: SelectionCallback) {
         this.callback = callback;
-        this.drawing = new Drawing(canvas.getContext('2d')!)
+        this.drawing = drawing;
     }
 
     hide() {

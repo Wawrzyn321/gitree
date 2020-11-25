@@ -1,3 +1,4 @@
+import { Colors } from "../hooks/useColors";
 import { Vector2 } from "../types/Vector2";
 
 export class Drawing {
@@ -5,10 +6,14 @@ export class Drawing {
     private readonly textMargin = 1.2;
     private readonly maxTextScale = 2;
     private readonly rotationClamp = 1.3;
+    private readonly hasDarkTheme: boolean;
+    private readonly colors: Colors;
 
-    constructor(private ctx: CanvasRenderingContext2D) {
+    constructor(private ctx: CanvasRenderingContext2D, useDarkTheme: boolean, colors: Colors) {
         this.ctx.textAlign = "center";
         this.ctx.textBaseline = "middle";
+        this.hasDarkTheme = useDarkTheme;
+        this.colors = colors;
     }
 
     drawLine(from: Vector2, to: Vector2): void {
@@ -27,7 +32,8 @@ export class Drawing {
     }
 
     drawNodeText(start: Vector2, end: Vector2, text: string): void {
-        this.fitText(start, end, text, '10px Arial', 'black', this.maxTextScale);
+        const color = this.hasDarkTheme ? 'white' : 'black';
+        this.fitText(start, end, text, '10px Arial', color, this.maxTextScale);
     }
 
     drawRectPath(start: Vector2, end: Vector2): Path2D {
@@ -51,7 +57,8 @@ export class Drawing {
     fillArea(start: Vector2, end: Vector2, color: string): void {
         const size = end.sub(start);
 
-        this.ctx.fillStyle = color
+        this.ctx.fillStyle = color;
+        this.ctx.strokeStyle = this.hasDarkTheme ? this.colors.actionDark : 'black';
         this.ctx.fillRect(start.x, start.y, size.x, size.y)
     }
 

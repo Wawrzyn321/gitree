@@ -7,6 +7,7 @@ import { faFile, faFolder } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { NodeLink } from "./NodeLink";
 import "./NodePanel.scss";
+import useColors from "../../hooks/useColors";
 
 interface NodePanelProps {
   node: Node;
@@ -14,12 +15,16 @@ interface NodePanelProps {
 }
 
 export function NodePanel({ node, showLink }: NodePanelProps) {
+  const { action: actionColor } = useColors();
+
   if (!node) return null;
+
   const icon = node.type === "file" ? faFile : faFolder;
+
   return (
     <section className="node-panel">
       <h5>
-        <FontAwesomeIcon color="#0090FF" icon={icon} />
+        <FontAwesomeIcon color={actionColor} icon={icon} />
         Name: {node.path}
         {showLink && <NodeLink node={node} />}
       </h5>

@@ -6,6 +6,8 @@ import { TreePath } from "./TreePath";
 import "./TreeView.scss";
 import { NodeLink } from "./NodeLink";
 import { HelpBanner } from "./HelpBanner";
+import useHasDarkTheme from "../../hooks/useHasDarkTheme";
+import useColors from "../../hooks/useColors";
 
 interface TreeViewProps {
   width: number;
@@ -16,6 +18,8 @@ export function TreeView({ width, height }: TreeViewProps) {
   const { state, setHoveredNode, setMainNode, setRenderer } = React.useContext(
     GitreeContext
   );
+  const isDarkTheme = useHasDarkTheme();
+  const colors = useColors();
 
   const { loading } = state.branchData;
   const { tree, mainNode, renderer } = state.treeData;
@@ -32,7 +36,9 @@ export function TreeView({ width, height }: TreeViewProps) {
           frontCanvasRef.current!,
           linkRef.current!,
           setHoveredNode,
-          setMainNode
+          setMainNode,
+          isDarkTheme,
+          colors
         )
       );
     }

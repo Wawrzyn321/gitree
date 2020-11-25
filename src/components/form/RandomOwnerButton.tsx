@@ -2,6 +2,7 @@ import React, { CSSProperties } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faDice } from "@fortawesome/free-solid-svg-icons";
 import { GitreeContext } from "../../state";
+import useColors from "../../hooks/useColors";
 
 const owners = [
   "kubernetes",
@@ -24,6 +25,7 @@ const style = {
 } as CSSProperties;
 
 export function RandomOwnerButton() {
+  const { action } = useColors();
   const { state, setOwner } = React.useContext(GitreeContext);
   const { owner } = state.ownerData;
 
@@ -37,8 +39,8 @@ export function RandomOwnerButton() {
   };
 
   return (
-    <button style={style} className="link" onClick={setRandomOwner}>
-      <FontAwesomeIcon icon={faDice} />
+    <button style={style} type="button" className="link" onClick={setRandomOwner}>
+      <FontAwesomeIcon icon={faDice} color={action} />
     </button>
   );
 }

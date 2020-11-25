@@ -3,6 +3,7 @@ import React from "react";
 import { GitreeContext } from "../../state";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faExternalLinkAlt } from "@fortawesome/free-solid-svg-icons";
+import useColors from "../../hooks/useColors";
 
 interface NodeLinkProps {
   node: React.ReactNode;
@@ -11,6 +12,7 @@ interface NodeLinkProps {
 
 export function NodeLink({ node, _ref }: NodeLinkProps) {
   const { getUrl } = React.useContext(GitreeContext);
+  const {action} = useColors();
 
   return (
     <a
@@ -20,7 +22,7 @@ export function NodeLink({ node, _ref }: NodeLinkProps) {
       aria-label="Open on GitHub"
       ref={_ref}
     >
-      <FontAwesomeIcon color="#0090FF" icon={faExternalLinkAlt} />
+      <FontAwesomeIcon color={action} icon={faExternalLinkAlt} />
     </a>
   );
 }

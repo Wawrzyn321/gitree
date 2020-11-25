@@ -3,6 +3,14 @@
     color: blue;
 }
 
+@media (prefers-color-scheme: dark) {
+    .link {
+        background: unset;
+        color: var(--action-dark);
+        filter: brightness(140%);
+    }
+}
+
 .tree-path {
     text-align: center;
 
@@ -13,6 +21,12 @@
             content: '/';
             margin-left: 8px;
             color: black;
+        }
+        
+        @media (prefers-color-scheme: dark) {
+            &::after {
+                color: white;
+            }
         }
     }
 

@@ -32,3 +32,10 @@
     margin-right: 4px;
   }
 }
+
+
+@media (prefers-color-scheme: dark) {
+  .sidebar {
+      background: unset;
+  }
+}

@@ -1,4 +1,5 @@
 import React from "react";
+import useHasDarkTheme from './../../hooks/useHasDarkTheme';
 
 import {
   faCheck,
@@ -16,6 +17,8 @@ interface PanelBadgeProps {
 }
 
 export function PanelBadge({ type }: PanelBadgeProps) {
+  const isDarkTheme = useHasDarkTheme();
+
   if (type === "None") {
     return null;
   }
@@ -32,7 +35,7 @@ export function PanelBadge({ type }: PanelBadgeProps) {
       icon = faTimes;
       break;
     case "Loading":
-      color = "black";
+      color = isDarkTheme ? "orange" : "black";
       icon = faHourglass;
       break;
     default:

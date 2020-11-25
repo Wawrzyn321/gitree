@@ -7,6 +7,7 @@ import { Path } from '../types/Path';
 
 import { partition } from './fileTree';
 import { lerp } from './util';
+import { Colors } from '../hooks/useColors';
 
 export class TreeRenderer {
     private canvas: HTMLCanvasElement;
@@ -27,11 +28,15 @@ export class TreeRenderer {
         frontCanvas: HTMLCanvasElement,
         linkRef: HTMLAnchorElement,
         hoverCallback: SelectionCallback,
-        currentNodeCallback: SelectionCallback) {
+        currentNodeCallback: SelectionCallback,
+        useDarkTheme: boolean,
+        colors: Colors) {
+        const selectionDrawing = new Drawing(frontCanvas.getContext('2d')!, useDarkTheme, colors);
+
         this.canvas = canvas;
         this.linkRef = linkRef;
-        this.selection = new Selection(frontCanvas, hoverCallback);
-        this.drawing = new Drawing(this.canvas.getContext('2d')!);
+        this.selection = new Selection(selectionDrawing, hoverCallback);
+        this.drawing = new Drawing(this.canvas.getContext('2d')!, useDarkTheme, colors);
 
         this.currentNode = null;
         this.setCurrentNode = currentNodeCallback;
