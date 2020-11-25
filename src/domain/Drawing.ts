@@ -32,7 +32,7 @@ export class Drawing {
     }
 
     drawNodeText(start: Vector2, end: Vector2, text: string): void {
-        const color = this.hasDarkTheme ? 'white' : 'black';
+        const color = this.hasDarkTheme ? '#FFFD' : 'black';
         this.fitText(start, end, text, '10px Arial', color, this.maxTextScale);
     }
 
