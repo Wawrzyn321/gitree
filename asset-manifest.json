@@ -1,15 +1,15 @@
 {
   "files": {
     "main.css": "/gitree/static/css/main.9f5bd7d4.chunk.css",
-    "main.js": "/gitree/static/js/main.5c9a4ab2.chunk.js",
-    "main.js.map": "/gitree/static/js/main.5c9a4ab2.chunk.js.map",
+    "main.js": "/gitree/static/js/main.4def8a60.chunk.js",
+    "main.js.map": "/gitree/static/js/main.4def8a60.chunk.js.map",
     "runtime-main.js": "/gitree/static/js/runtime-main.575ba454.js",
     "runtime-main.js.map": "/gitree/static/js/runtime-main.575ba454.js.map",
     "static/css/2.bab5d168.chunk.css": "/gitree/static/css/2.bab5d168.chunk.css",
     "static/js/2.50e863b6.chunk.js": "/gitree/static/js/2.50e863b6.chunk.js",
     "static/js/2.50e863b6.chunk.js.map": "/gitree/static/js/2.50e863b6.chunk.js.map",
     "index.html": "/gitree/index.html",
-    "precache-manifest.8433b869a0f1de58780f1101ef032728.js": "/gitree/precache-manifest.8433b869a0f1de58780f1101ef032728.js",
+    "precache-manifest.336153d618c6e378e17d1d1a3d144563.js": "/gitree/precache-manifest.336153d618c6e378e17d1d1a3d144563.js",
     "service-worker.js": "/gitree/service-worker.js",
     "static/css/2.bab5d168.chunk.css.map": "/gitree/static/css/2.bab5d168.chunk.css.map",
     "static/css/main.9f5bd7d4.chunk.css.map": "/gitree/static/css/main.9f5bd7d4.chunk.css.map",
@@ -20,6 +20,6 @@
     "static/css/2.bab5d168.chunk.css",
     "static/js/2.50e863b6.chunk.js",
     "static/css/main.9f5bd7d4.chunk.css",
-    "static/js/main.5c9a4ab2.chunk.js"
+    "static/js/main.4def8a60.chunk.js"
   ]
 }
