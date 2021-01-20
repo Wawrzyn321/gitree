@@ -1,4 +1,4 @@
-import { Selection, SelectionCallback } from './Selection';
+import { Selection, SelectionCallback } from './selection';
 import { Drawing } from './Drawing';
 
 import { Vector2 } from '../types/Vector2';

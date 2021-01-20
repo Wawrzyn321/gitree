@@ -111,11 +111,14 @@ export const Provider = (a: any) => {
             branches,
           });
         } else {
+          const masterBranch = branches.find(
+            (b: Branch) => (b.name === "master" || b.name === "main")
+          );
           dispatch({
             type: actions.SET_BRANCHES,
             error: "",
             branches,
-            branch: branches.find((b: Branch) => (b.name = "master")),
+            branch: masterBranch,
           });
         }
       } catch (e) {

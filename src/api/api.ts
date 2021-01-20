@@ -1,5 +1,5 @@
 import { Branch } from "../types/Branch";
-import { GitHubRepository, GitHubBranch, GitHubTreeNode, PossiblyTruncatedFiles } from "./apiTypes";
+import { GitHubRepository, GitHubBranch, GitHubTreeNode, PossiblyTruncatedFiles } from "./ApiTypes";
 
 const apiUrl = 'https://api.github.com';
 
