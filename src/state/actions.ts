@@ -26,88 +26,112 @@ export enum ActionTypes {
   SET_MAIN_NODE,
 }
 
-type SetOwnerFormCollapsedAction = {
-  type: ActionTypes.SET_OWNER_FORM_COLLAPSED;
-  collapsed: boolean;
-};
+type Action<ActionTypes, TActionData = {}> = {
+  type: ActionTypes;
+} & TActionData;
 
-type SetOwnerAction = {
-  type: ActionTypes.SET_OWNER;
-  owner: string;
-};
+type SetOwnerFormCollapsedAction = Action<
+  ActionTypes.SET_OWNER_FORM_COLLAPSED,
+  {
+    collapsed: boolean;
+  }
+>;
 
-type SetTokenAction = {
-  type: ActionTypes.SET_TOKEN;
-  token: string;
-};
+type SetOwnerAction = Action<
+  ActionTypes.SET_OWNER,
+  {
+    owner: string;
+  }
+>;
 
-type FetchReposAction = {
-  type: ActionTypes.FETCH_REPOS;
-};
+type SetTokenAction = Action<
+  ActionTypes.SET_TOKEN,
+  {
+    token: string;
+  }
+>;
 
-type SetReposAction = {
-  type: ActionTypes.SET_REPOS;
-  error: string | null;
-  repos: string[] | null;
-};
+type FetchReposAction = Action<ActionTypes.FETCH_REPOS>;
 
-type SetRepoFormCollapsedAction = {
-  type: ActionTypes.SET_REPO_FORM_COLLAPSED;
-  collapsed: boolean;
-};
+type SetReposAction = Action<
+  ActionTypes.SET_REPOS,
+  {
+    error: string | null;
+    repos: string[] | null;
+  }
+>;
 
-type SetRepoAction = {
-  type: ActionTypes.SET_REPO;
-  repo: string;
-};
+type SetRepoFormCollapsedAction = Action<
+  ActionTypes.SET_REPO_FORM_COLLAPSED,
+  {
+    collapsed: boolean;
+  }
+>;
 
-type FetchBranchesAction = {
-  type: ActionTypes.FETCH_BRANCHES;
-};
+type SetRepoAction = Action<
+  ActionTypes.SET_REPO,
+  {
+    repo: string;
+  }
+>;
 
-type SetBranchesAction = {
-  type: ActionTypes.SET_BRANCHES;
-  error: string | null;
-  branches: Branch[];
-  branch: Branch | null;
-};
+type FetchBranchesAction = Action<ActionTypes.FETCH_BRANCHES>;
 
-type SetBranchCollapsedAction = {
-  type: ActionTypes.SET_BRANCH_FORM_COLLAPSED;
-  collapsed: boolean;
-};
+type SetBranchesAction = Action<
+  ActionTypes.SET_BRANCHES,
+  {
+    error: string | null;
+    branches: Branch[];
+    branch: Branch | null;
+  }
+>;
 
-type SetBranchAction = {
-  type: ActionTypes.SET_BRANCH;
-  branch: Branch;
-};
+type SetBranchCollapsedAction = Action<
+  ActionTypes.SET_BRANCH_FORM_COLLAPSED,
+  {
+    collapsed: boolean;
+  }
+>;
 
-type FetchFilesAction = {
-  type: ActionTypes.FETCH_FILES;
-};
+type SetBranchAction = Action<
+  ActionTypes.SET_BRANCH,
+  {
+    branch: Branch;
+  }
+>;
 
-type BuildTreeAction = {
-  type: ActionTypes.BUILD_TREE;
-  tree: Node | null;
-  files: FileList["files"];
-  error: string | null;
-  truncated: boolean;
-};
+type FetchFilesAction = Action<ActionTypes.FETCH_FILES>;
 
-type SetHoveredNodeAction = {
-  type: ActionTypes.SET_HOVERED_NODE;
-  hoveredNode: Node | null;
-};
+type BuildTreeAction = Action<
+  ActionTypes.BUILD_TREE,
+  {
+    tree: Node | null;
+    files: FileList["files"];
+    error: string | null;
+    truncated: boolean;
+  }
+>;
 
-type SetMainNodeAction = {
-  type: ActionTypes.SET_MAIN_NODE;
-  mainNode: Node | null;
-};
+type SetHoveredNodeAction = Action<
+  ActionTypes.SET_HOVERED_NODE,
+  {
+    hoveredNode: Node | null;
+  }
+>;
 
-type SetRendererAction = {
-  type: ActionTypes.SET_RENDERER;
-  renderer: TreeRenderer;
-};
+type SetMainNodeAction = Action<
+  ActionTypes.SET_MAIN_NODE,
+  {
+    mainNode: Node | null;
+  }
+>;
+
+type SetRendererAction = Action<
+  ActionTypes.SET_RENDERER,
+  {
+    renderer: TreeRenderer;
+  }
+>;
 
 export type Actions =
   | SetOwnerFormCollapsedAction
