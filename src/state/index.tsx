@@ -48,8 +48,7 @@ const initialState: AppState = {
 
 export const GitreeContext = React.createContext<any>(null);
 
-export const Provider = (a: any) => {
-  const children = a.children;
+export const Provider = ({ children }: any) => {
   const [state, dispatch]: [AppState, any] = React.useReducer(
     reducer,
     initialState
@@ -83,11 +82,15 @@ export const Provider = (a: any) => {
           saveToStorage(sessionStorage, TOKEN_KEY, token);
         }
       } catch (e) {
-        dispatch({
-          type: actions.SET_REPOS,
-          error: `Can't fetch repos: ${e.message}.`,
-          repos: [],
-        });
+        if (e instanceof Error) {
+          dispatch({
+            type: actions.SET_REPOS,
+            error: `Can't fetch repos: ${e.message}.`,
+            repos: [],
+          });
+        } else {
+          throw e;
+        }
       }
     },
 
@@ -122,11 +125,16 @@ export const Provider = (a: any) => {
           });
         }
       } catch (e) {
-        dispatch({
-          type: actions.SET_BRANCHES,
-          error: `Can't fetch branches: ${e.message}.`,
-          branches: [],
-        });
+        if (e instanceof Error) {
+          dispatch({
+            type: actions.SET_BRANCHES,
+            error: `Can't fetch branches: ${e.message}.`,
+            branches: [],
+          });
+        }
+        else {
+          throw e;
+        }
       }
     },
 
@@ -156,12 +164,16 @@ export const Provider = (a: any) => {
           truncated,
         });
       } catch (e) {
-        dispatch({
-          type: actions.BUILD_TREE,
-          error: `Can't fetch files: ${e.message}.`,
-          files: [],
-          tree: null,
-        });
+        if (e instanceof Error) {
+          dispatch({
+            type: actions.BUILD_TREE,
+            error: `Can't fetch files: ${e.message}.`,
+            files: [],
+            tree: null,
+          });
+        } else {
+          throw e;
+        }
       }
     },
 
@@ -180,9 +192,8 @@ export const Provider = (a: any) => {
       const repo = state.repoData.repo;
       const branch = state.branchData.branch;
       if (!branch) return;
-      return `https://github.com/${owner}/${repo}/tree/${branch!.name}/${
-        node.dirPath
-      }`;
+      return `https://github.com/${owner}/${repo}/tree/${branch!.name}/${node.dirPath
+        }`;
     },
   };
 

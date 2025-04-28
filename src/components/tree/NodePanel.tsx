@@ -1,6 +1,6 @@
 import React from "react";
 
-import filesize from "filesize";
+import { filesize } from "filesize";
 import { Node } from "../../types/Node";
 
 import { faFile, faFolder } from "@fortawesome/free-solid-svg-icons";
