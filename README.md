@@ -19,3 +19,7 @@ for
 [Kyma Project](https://github.com/kyma-project) / [Console](https://github.com/kyma-project/console)
 
 ![s2](img/s2.png "kyma-project/console")
+
+## More info
+
+* Currently we fetch only 100 first repos / branches.
