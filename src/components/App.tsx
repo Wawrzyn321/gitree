@@ -1,6 +1,6 @@
 import React from "react";
 
-import { Provider } from "../state";
+import { Provider } from "../state/GitreeContext";
 
 import { TreeView } from "./tree/TreeView";
 import { Sidebar } from "./view/Sidebar";

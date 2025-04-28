@@ -3,67 +3,15 @@ import React from "react";
 import { Branch } from "../types/Branch";
 import { Node } from "../types/Node";
 
-import { readFromStorage, saveToStorage } from "../domain/storage";
 import { buildTree } from "../domain/fileTree";
 import { fetchRepoNames, fetchBranches, fetchFiles } from "../api/api";
 import { TreeRenderer } from "../domain/TreeRenderer";
 
-import { AppState } from "./types";
+import { GitreeContextType } from "./types";
 import { actions } from "./actions";
 import { reducer } from "./reducer";
-
-const OWNER_KEY = "owner";
-const TOKEN_KEY = "token";
-
-const initialState: AppState = {
-  ownerData: {
-    owner: readFromStorage(localStorage, OWNER_KEY) || "",
-    token: readFromStorage(sessionStorage, TOKEN_KEY) || "",
-    loading: false,
-    error: "",
-    collapsed: false,
-  },
-  repoData: {
-    repos: [],
-    repo: "",
-    error: "",
-    loading: false,
-    collapsed: true,
-  },
-  branchData: {
-    branches: [],
-    branch: null,
-    loading: false,
-    error: "",
-    collapsed: true,
-  },
-  treeData: {
-    files: [],
-    truncated: false,
-    tree: null,
-    mainNode: null,
-    hoveredNode: null,
-    renderer: null,
-  },
-};
-
-type GitreeContextType = {
-  state: AppState;
-  setOwnerFormCollapsed(collapsed: boolean): void;
-  setOwner(owner: string): void;
-  setToken(token: string): void;
-  getRepos(): Promise<void>;
-  setRepoFormCollapsed(collapsed: boolean): void;
-  setRepo(repo: string): void;
-  getBranches(): Promise<void>;
-  setBranchFormCollapsed(collapsed: boolean): void;
-  setBranch(branch: Branch): void;
-  buildTree(): Promise<void>;
-  setRenderer(renderer: TreeRenderer): void;
-  setHoveredNode(hoveredNode: Node | null): void;
-  setMainNode(mainNode: Node | null): void;
-  getUrl(node: Node): string | undefined;
-};
+import { initialState } from "./initialState";
+import { storeOwner, storeToken } from "./storage";
 
 export const GitreeContext = React.createContext<GitreeContextType | null>(
   null,
@@ -95,9 +43,9 @@ export const Provider = ({ children }: { children: React.ReactNode }) => {
             repos,
           });
         } else {
-          dispatch({ type: actions.SET_REPOS, error: "", repos });
-          saveToStorage(localStorage, OWNER_KEY, owner);
-          saveToStorage(sessionStorage, TOKEN_KEY, token);
+          dispatch({ type: actions.SET_REPOS, error: null, repos });
+          storeOwner(owner);
+          storeToken(token);
         }
       } catch (e) {
         if (e instanceof Error) {
@@ -130,6 +78,7 @@ export const Provider = ({ children }: { children: React.ReactNode }) => {
             error:
               "This repo appears to have no branches. Why don't you try another one?",
             branches,
+            branch: undefined,
           });
         } else {
           const masterBranch = branches.find(
@@ -137,7 +86,7 @@ export const Provider = ({ children }: { children: React.ReactNode }) => {
           );
           dispatch({
             type: actions.SET_BRANCHES,
-            error: "",
+            error: null,
             branches,
             branch: masterBranch,
           });
@@ -148,6 +97,7 @@ export const Provider = ({ children }: { children: React.ReactNode }) => {
             type: actions.SET_BRANCHES,
             error: `Can't fetch branches: ${e.message}.`,
             branches: [],
+            branch: undefined,
           });
         } else {
           throw e;
@@ -175,7 +125,7 @@ export const Provider = ({ children }: { children: React.ReactNode }) => {
         );
         dispatch({
           type: actions.BUILD_TREE,
-          error: "",
+          error: null,
           files,
           tree: buildTree(`${repo}@${branch!.name}`, files),
           truncated,
@@ -187,6 +137,7 @@ export const Provider = ({ children }: { children: React.ReactNode }) => {
             error: `Can't fetch files: ${e.message}.`,
             files: [],
             tree: null,
+            truncated: false,
           });
         } else {
           throw e;

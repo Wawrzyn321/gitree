@@ -1,4 +1,5 @@
 import { Branch } from "../types/Branch";
+import { FileList } from "../types/FileList";
 import * as ApiTypes from "./ApiTypes";
 
 const API_URL = "https://api.github.com";
@@ -44,7 +45,7 @@ export const fetchBranches = async (
   const response = await fetch(url, makeHeaders(owner, token));
 
   return processResponse<ApiTypes.Branch[], Branch[]>(response, (json) =>
-    json.map((branch: ApiTypes.Branch) => ({
+    json.map((branch) => ({
       name: branch.name,
       commitSha: branch.commit.sha,
     })),
@@ -60,7 +61,7 @@ export const fetchFiles = async (
   const url = `${API_URL}/repos/${owner}/${repo}/git/trees/${sha}?recursive=true`;
   const response = await fetch(url, makeHeaders(owner, token));
 
-  return processResponse<ApiTypes.Tree, ApiTypes.FileList>(response, (data) => {
+  return processResponse<ApiTypes.Tree, FileList>(response, (data) => {
     const files = data.tree
       .filter((node) => node.type === "blob")
       .map((node) => ({ path: node.path, size: node.size }));

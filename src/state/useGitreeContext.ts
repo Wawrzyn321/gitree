@@ -1,5 +1,5 @@
 import React from "react";
-import { GitreeContext } from ".";
+import { GitreeContext } from "./GitreeContext";
 
 export function useGitreeContext() {
   const context = React.useContext(GitreeContext);

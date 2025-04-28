@@ -1,6 +1,6 @@
-import { actions } from "./actions";
+import { Actions, actions } from "./actions";
 
-export const reducer = (state: any, action: any) => {
+export const reducer = (state: any, action: Actions) => {
   switch (action.type) {
     case actions.SET_OWNER_FORM_COLLAPSED: {
       const { collapsed } = action;
@@ -96,7 +96,7 @@ export const reducer = (state: any, action: any) => {
         repoData: {
           ...state.repoData,
           loading: true,
-          error: "",
+          error: null,
         },
         branchData: {
           ...state.branchData,
@@ -149,7 +149,7 @@ export const reducer = (state: any, action: any) => {
         branchData: {
           ...state.branchData,
           loading: true,
-          error: "",
+          error: null,
         },
         treeData: {
           files: [],

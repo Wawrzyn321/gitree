@@ -1,8 +1,3 @@
-export interface File {
-  path: string;
-  size: number;
-}
-
 export interface Tree {
   tree: {
     type: "blob" | "string";
@@ -19,9 +14,4 @@ export interface Repository {
 export interface Branch {
   name: string;
   commit: { sha: string };
-}
-
-export interface FileList {
-  files: File[];
-  truncated: boolean;
 }

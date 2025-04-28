@@ -8,7 +8,7 @@ export interface FormPanelProps {
   collapsed: boolean;
   setCollapsed: (collapsed: boolean) => void;
   loading: boolean;
-  error: string;
+  error: string | null;
   children: React.ReactNode;
 }
 
