@@ -1,7 +1,7 @@
-import { OwnerFormActions } from "./owner/types";
-import { RepositoryFormActions } from "./repository/types";
-import { BranchFormActions } from "./branch/types";
-import { TreeActions } from "./treeActions/types";
+import { OwnerFormActions } from "./ownerForm/types";
+import { RepositoryFormActions } from "./repositoryForm/types";
+import { BranchFormActions } from "./branchForm/types";
+import { TreeActions } from "./tree/types";
 
 export enum ActionTypes {
   SET_OWNER_FORM_COLLAPSED,

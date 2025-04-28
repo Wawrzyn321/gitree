@@ -3,10 +3,10 @@ import React from "react";
 import { GitreeContextType } from "./types";
 import { reducer } from "./reducer";
 import { initialState } from "./initialState";
-import { useOwnerFormActions } from "./owner/useOwnerFormActions";
-import { useRepositoryFormActions } from "./repository/useRepositoryFormActions";
-import { useTreeActions } from "./treeActions/useTreeActions";
-import { useBranchFormActions } from "./branch/useBranchFormActions";
+import { useOwnerFormActions } from "./ownerForm/useOwnerFormActions";
+import { useRepositoryFormActions } from "./repositoryForm/useRepositoryFormActions";
+import { useTreeActions } from "./tree/useTreeActions";
+import { useBranchFormActions } from "./branchForm/useBranchFormActions";
 
 export const GitreeContext = React.createContext<GitreeContextType | null>(
   null,
