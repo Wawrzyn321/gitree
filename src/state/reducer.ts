@@ -1,9 +1,9 @@
-import { Actions, actions } from "./actions";
+import { Actions, ActionTypes } from "./actions";
 import { AppState } from "./types";
 
 export const reducer = (state: AppState, action: Actions) => {
   switch (action.type) {
-    case actions.SET_OWNER_FORM_COLLAPSED: {
+    case ActionTypes.SET_OWNER_FORM_COLLAPSED: {
       const { collapsed } = action;
       return {
         ...state,
@@ -13,7 +13,7 @@ export const reducer = (state: AppState, action: Actions) => {
         },
       };
     }
-    case actions.SET_OWNER:
+    case ActionTypes.SET_OWNER:
       const { owner } = action;
       return {
         ...state,
@@ -23,7 +23,7 @@ export const reducer = (state: AppState, action: Actions) => {
           owner,
         },
       };
-    case actions.SET_TOKEN:
+    case ActionTypes.SET_TOKEN:
       const { token } = action;
       return {
         ...state,
@@ -32,7 +32,7 @@ export const reducer = (state: AppState, action: Actions) => {
           token,
         },
       };
-    case actions.FETCH_REPOS:
+    case ActionTypes.FETCH_REPOS:
       return {
         ...state,
         ownerData: {
@@ -50,7 +50,7 @@ export const reducer = (state: AppState, action: Actions) => {
           branch: null,
         },
       };
-    case actions.SET_REPOS: {
+    case ActionTypes.SET_REPOS: {
       const { error, repos } = action;
       return {
         ...state,
@@ -68,7 +68,7 @@ export const reducer = (state: AppState, action: Actions) => {
       };
     }
 
-    case actions.SET_REPO_FORM_COLLAPSED: {
+    case ActionTypes.SET_REPO_FORM_COLLAPSED: {
       const { collapsed } = action;
       return {
         ...state,
@@ -78,7 +78,7 @@ export const reducer = (state: AppState, action: Actions) => {
         },
       };
     }
-    case actions.SET_REPO:
+    case ActionTypes.SET_REPO:
       const { repo } = action;
       return {
         ...state,
@@ -91,7 +91,7 @@ export const reducer = (state: AppState, action: Actions) => {
           ...(repo !== state.repoData.repo ? { files: [] } : {}),
         },
       };
-    case actions.FETCH_BRANCHES:
+    case ActionTypes.FETCH_BRANCHES:
       return {
         ...state,
         repoData: {
@@ -105,7 +105,7 @@ export const reducer = (state: AppState, action: Actions) => {
           branch: null,
         },
       };
-    case actions.SET_BRANCHES: {
+    case ActionTypes.SET_BRANCHES: {
       const { error, branches, branch } = action;
       return {
         ...state,
@@ -125,7 +125,7 @@ export const reducer = (state: AppState, action: Actions) => {
       };
     }
 
-    case actions.SET_BRANCH_FORM_COLLAPSED: {
+    case ActionTypes.SET_BRANCH_FORM_COLLAPSED: {
       const { collapsed } = action;
       return {
         ...state,
@@ -135,7 +135,7 @@ export const reducer = (state: AppState, action: Actions) => {
         },
       };
     }
-    case actions.SET_BRANCH:
+    case ActionTypes.SET_BRANCH:
       const { branch } = action;
       return {
         ...state,
@@ -144,7 +144,7 @@ export const reducer = (state: AppState, action: Actions) => {
           branch,
         },
       };
-    case actions.FETCH_FILES:
+    case ActionTypes.FETCH_FILES:
       return {
         ...state,
         branchData: {
@@ -158,7 +158,7 @@ export const reducer = (state: AppState, action: Actions) => {
           tree: null,
         },
       };
-    case actions.BUILD_TREE:
+    case ActionTypes.BUILD_TREE:
       const { tree, files, error, truncated } = action;
       return {
         ...state,
@@ -178,7 +178,7 @@ export const reducer = (state: AppState, action: Actions) => {
         },
       };
 
-    case actions.SET_HOVERED_NODE:
+    case ActionTypes.SET_HOVERED_NODE:
       const { hoveredNode } = action;
       return {
         ...state,
@@ -188,7 +188,7 @@ export const reducer = (state: AppState, action: Actions) => {
         },
       };
 
-    case actions.SET_MAIN_NODE:
+    case ActionTypes.SET_MAIN_NODE:
       const { mainNode } = action;
       return {
         ...state,
@@ -197,7 +197,7 @@ export const reducer = (state: AppState, action: Actions) => {
           mainNode,
         },
       };
-    case actions.SET_RENDERER:
+    case ActionTypes.SET_RENDERER:
       const { renderer } = action;
       return {
         ...state,

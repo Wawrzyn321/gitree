@@ -3,91 +3,91 @@ import { Branch } from "../types/Branch";
 import { FileList } from "../types/FileList";
 import { Node } from "../types/Node";
 
-export const actions = {
-  SET_OWNER_FORM_COLLAPSED: "SET_OWNER_FORM_COLLAPSED",
-  SET_OWNER: "SET_OWNER",
-  SET_TOKEN: "SET_TOKEN",
-  FETCH_REPOS: "FETCH_REPOS",
-  SET_REPOS: "SET_REPOS",
+export enum ActionTypes {
+  SET_OWNER_FORM_COLLAPSED,
+  SET_OWNER,
+  SET_TOKEN,
+  FETCH_REPOS,
+  SET_REPOS,
 
-  SET_REPO_FORM_COLLAPSED: "SET_REPO_FORM_COLLAPSED",
-  SET_REPO: "SET_REPO",
-  FETCH_BRANCHES: "FETCH_BRANCHES",
-  SET_BRANCHES: "SET_BRANCHES",
+  SET_REPO_FORM_COLLAPSED,
+  SET_REPO,
+  FETCH_BRANCHES,
+  SET_BRANCHES,
 
-  SET_BRANCH_FORM_COLLAPSED: "SET_BRANCH_FORM_COLLAPSED",
-  SET_BRANCH: "SET_BRANCH",
-  FETCH_FILES: "FETCH_FILES",
-  BUILD_TREE: "BUILD_TREE",
+  SET_BRANCH_FORM_COLLAPSED,
+  SET_BRANCH,
+  FETCH_FILES,
+  BUILD_TREE,
 
-  SET_RENDERER: "SET_RENDERER",
-  REDRAW: "REDRAW",
-  SET_HOVERED_NODE: "SET_HOVERED_NODE",
-  SET_MAIN_NODE: "SET_MAIN_NODE",
-} as const;
+  SET_RENDERER,
+  REDRAW,
+  SET_HOVERED_NODE,
+  SET_MAIN_NODE,
+}
 
 type SetOwnerFormCollapsedAction = {
-  type: "SET_OWNER_FORM_COLLAPSED";
+  type: ActionTypes.SET_OWNER_FORM_COLLAPSED;
   collapsed: boolean;
 };
 
 type SetOwnerAction = {
-  type: "SET_OWNER";
+  type: ActionTypes.SET_OWNER;
   owner: string;
 };
 
 type SetTokenAction = {
-  type: "SET_TOKEN";
+  type: ActionTypes.SET_TOKEN;
   token: string;
 };
 
 type FetchReposAction = {
-  type: "FETCH_REPOS";
+  type: ActionTypes.FETCH_REPOS;
 };
 
 type SetReposAction = {
-  type: "SET_REPOS";
+  type: ActionTypes.SET_REPOS;
   error: string | null;
   repos: string[] | null;
 };
 
 type SetRepoFormCollapsedAction = {
-  type: "SET_REPO_FORM_COLLAPSED";
+  type: ActionTypes.SET_REPO_FORM_COLLAPSED;
   collapsed: boolean;
 };
 
 type SetRepoAction = {
-  type: "SET_REPO";
+  type: ActionTypes.SET_REPO;
   repo: string;
 };
 
 type FetchBranchesAction = {
-  type: "FETCH_BRANCHES";
+  type: ActionTypes.FETCH_BRANCHES;
 };
 
 type SetBranchesAction = {
-  type: "SET_BRANCHES";
+  type: ActionTypes.SET_BRANCHES;
   error: string | null;
   branches: Branch[];
   branch: Branch | null;
 };
 
 type SetBranchCollapsedAction = {
-  type: "SET_BRANCH_FORM_COLLAPSED";
+  type: ActionTypes.SET_BRANCH_FORM_COLLAPSED;
   collapsed: boolean;
 };
 
 type SetBranchAction = {
-  type: "SET_BRANCH";
+  type: ActionTypes.SET_BRANCH;
   branch: Branch;
 };
 
 type FetchFilesAction = {
-  type: "FETCH_FILES";
+  type: ActionTypes.FETCH_FILES;
 };
 
 type BuildTreeAction = {
-  type: "BUILD_TREE";
+  type: ActionTypes.BUILD_TREE;
   tree: Node | null;
   files: FileList["files"];
   error: string | null;
@@ -95,17 +95,17 @@ type BuildTreeAction = {
 };
 
 type SetHoveredNodeAction = {
-  type: "SET_HOVERED_NODE";
+  type: ActionTypes.SET_HOVERED_NODE;
   hoveredNode: Node | null;
 };
 
 type SetMainNodeAction = {
-  type: "SET_MAIN_NODE";
+  type: ActionTypes.SET_MAIN_NODE;
   mainNode: Node | null;
 };
 
 type SetRendererAction = {
-  type: "SET_RENDERER";
+  type: ActionTypes.SET_RENDERER;
   renderer: TreeRenderer;
 };
 
