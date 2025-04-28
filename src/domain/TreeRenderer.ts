@@ -27,7 +27,7 @@ export class TreeRenderer {
 
   constructor(
     canvas: HTMLCanvasElement,
-    frontCanvas: HTMLCanvasElement,
+    overlayCanvas: HTMLCanvasElement,
     linkRef: HTMLAnchorElement,
     hoverCallback: SelectionCallback,
     currentNodeCallback: SelectionCallback,
@@ -35,7 +35,7 @@ export class TreeRenderer {
     colors: Colors,
   ) {
     const selectionDrawing = new Drawing(
-      frontCanvas.getContext("2d")!,
+      overlayCanvas.getContext("2d")!,
       useDarkTheme,
       colors,
     );

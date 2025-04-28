@@ -71,7 +71,7 @@ type SetRepoFormCollapsedAction = Action<
 type SetRepoAction = Action<
   ActionTypes.SET_REPO,
   {
-    repo: string;
+    repoName: string;
   }
 >;
 

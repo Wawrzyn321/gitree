@@ -13,12 +13,12 @@ interface NodeLinkProps {
 
 function getNodeUrl(node: Node, state: AppState) {
   const owner = state.ownerData.owner;
-  const repo = state.repoData.repo;
+  const repoName = state.repoData.repoName;
   const branch = state.branchData.branch;
   if (!branch) {
     return undefined;
   }
-  return `https://github.com/${owner}/${repo}/tree/${branch!.name}/${
+  return `https://github.com/${owner}/${repoName}/tree/${branch!.name}/${
     node.dirPath
   }`;
 }

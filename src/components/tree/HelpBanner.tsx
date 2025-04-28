@@ -21,8 +21,8 @@ export function HelpBanner() {
         then follow the steps!
       </p>
       <p>
-        You can always press the <RandomOwnerButton /> to choose a popular
-        random repo.
+        You can always hit the <RandomOwnerButton /> to choose a popular random
+        repo.
       </p>
     </div>
   );

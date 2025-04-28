@@ -3,9 +3,9 @@ import { FormPanel } from "./FormPanel";
 import { useGitreeContext } from "../../state/useGitreeContext";
 
 export function RepoForm() {
-  const { state, setRepo, setRepoFormCollapsed, getBranches } =
+  const { state, setRepoName, setRepoFormCollapsed, getBranches } =
     useGitreeContext();
-  const { repoNames, repo, loading, collapsed, error } = state.repoData;
+  const { repoNames, repoName, loading, collapsed, error } = state.repoData;
   const { branches } = state.branchData;
 
   return (
@@ -22,8 +22,8 @@ export function RepoForm() {
           Choose repo:
           <select
             disabled={!repoNames}
-            value={repo || ".none"}
-            onChange={(e) => setRepo(e.target.value)}
+            value={repoName || ".none"}
+            onChange={(e) => setRepoName(e.target.value)}
           >
             <option value=".none" disabled hidden>
               Select repo
@@ -35,7 +35,7 @@ export function RepoForm() {
             ))}
           </select>
         </label>
-        <button type="button" disabled={!repo} onClick={getBranches}>
+        <button type="button" disabled={!repoName} onClick={getBranches}>
           Get branches
         </button>
       </section>

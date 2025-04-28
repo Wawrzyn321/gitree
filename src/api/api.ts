@@ -46,9 +46,9 @@ export const fetchRepoNames = async (
 export const fetchBranches = async (
   owner: string,
   token: string | undefined,
-  repo: string,
+  repoName: string,
 ) => {
-  const url = `/repos/${owner}/${repo}/branches?per_page=100`;
+  const url = `/repos/${owner}/${repoName}/branches?per_page=100`;
   const branches = await doFetch<ApiTypes.Branch[]>({ url, owner, token });
 
   return branches.map((branch) => ({
@@ -60,10 +60,10 @@ export const fetchBranches = async (
 export const fetchFiles = async (
   owner: string,
   token: string | undefined,
-  repo: string,
+  repoName: string,
   sha: string,
 ) => {
-  const url = `/repos/${owner}/${repo}/git/trees/${sha}?recursive=true`;
+  const url = `/repos/${owner}/${repoName}/git/trees/${sha}?recursive=true`;
   const response = await doFetch<ApiTypes.Tree>({ url, owner, token });
   const files = response.tree
     .filter((node) => node.type === "blob")

@@ -1,6 +1,6 @@
 import React from "react";
 import { CollapsiblePanel } from "../view/CollapsiblePanel";
-import { PanelBadgeType } from "../view/PanelBadge";
+import { getBadgeType } from "./utils/getBadgeType";
 
 export interface FormPanelProps {
   title: string;
@@ -10,28 +10,6 @@ export interface FormPanelProps {
   loading: boolean;
   error: string | null;
   children: React.ReactNode;
-}
-
-type getBadgeTypeArgs = {
-  error: string | null;
-  isOk: boolean;
-  loading: boolean;
-};
-
-function getBadgeType({
-  error,
-  isOk,
-  loading,
-}: getBadgeTypeArgs): PanelBadgeType {
-  if (error) {
-    return "Error";
-  } else if (loading) {
-    return "Loading";
-  } else if (isOk) {
-    return "OK";
-  } else {
-    return "None";
-  }
 }
 
 export function FormPanel(props: FormPanelProps) {

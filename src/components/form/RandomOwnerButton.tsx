@@ -3,28 +3,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faDice } from "@fortawesome/free-solid-svg-icons";
 import useColors from "../../hooks/useColors";
 import { useGitreeContext } from "../../state/useGitreeContext";
-
-const OWNERS = [
-  "kubernetes",
-  "apache",
-  "rust-lang",
-  "dotnet",
-  "nodejs",
-  "tensorflow",
-  "wordpress",
-  "facebook",
-  "gatsbyjs",
-  "angular",
-  "kyma-project",
-];
-
-function getRandomOwner(prevOwner: string) {
-  let nextOwner;
-  do {
-    nextOwner = OWNERS[Math.floor(Math.random() * OWNERS.length)];
-  } while (prevOwner === nextOwner);
-  return nextOwner;
-}
+import { getRandomOwner } from "./utils/getRandomOwner";
 
 const style = {
   margin: 0,

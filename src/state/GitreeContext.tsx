@@ -68,19 +68,19 @@ export const GitreeProvider = ({ children }: { children: React.ReactNode }) => {
     setRepoFormCollapsed: (collapsed: boolean) => {
       dispatch({ type: ActionTypes.SET_REPO_FORM_COLLAPSED, collapsed });
     },
-    setRepo: (repo: string) => {
-      dispatch({ type: ActionTypes.SET_REPO, repo });
+    setRepoName: (repoName: string) => {
+      dispatch({ type: ActionTypes.SET_REPO, repoName });
     },
     getBranches: async () => {
       dispatch({ type: ActionTypes.FETCH_BRANCHES });
       const { owner, token } = state.ownerData;
-      const { repo } = state.repoData;
+      const { repoName } = state.repoData;
       try {
-        if (!repo) {
+        if (!repoName) {
           throw Error("Repo is not defined");
         }
 
-        const branches = await fetchBranches(owner, token, repo);
+        const branches = await fetchBranches(owner, token, repoName);
         if (!branches.length) {
           dispatch({
             type: ActionTypes.SET_BRANCHES,
@@ -123,17 +123,17 @@ export const GitreeProvider = ({ children }: { children: React.ReactNode }) => {
     buildTree: async () => {
       dispatch({ type: ActionTypes.FETCH_FILES });
       const { owner, token } = state.ownerData;
-      const { repo } = state.repoData;
+      const { repoName } = state.repoData;
       const { branch } = state.branchData;
       try {
-        if (!repo) {
+        if (!repoName) {
           throw Error("Repo is not defined");
         }
 
         const { files, truncated } = await fetchFiles(
           owner,
           token,
-          repo,
+          repoName,
           branch!.commitSha,
         );
 
@@ -141,7 +141,7 @@ export const GitreeProvider = ({ children }: { children: React.ReactNode }) => {
           type: ActionTypes.BUILD_TREE,
           error: null,
           files,
-          tree: buildTree(`${repo}@${branch!.name}`, files),
+          tree: buildTree(`${repoName}@${branch!.name}`, files),
           truncated,
         });
       } catch (e) {

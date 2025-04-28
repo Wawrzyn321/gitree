@@ -21,8 +21,8 @@ export function TreePanel() {
           Navigate up
         </button>
       </section>
-      <NodePanel node={mainNode} showLink={true} />
-      <NodePanel node={hoveredNode} />
+      {mainNode && <NodePanel node={mainNode} showLink={true} />}
+      {hoveredNode && <NodePanel node={hoveredNode} />}
     </div>
   );
 }

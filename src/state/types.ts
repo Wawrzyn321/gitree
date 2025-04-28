@@ -13,7 +13,7 @@ export interface AppState {
   };
   repoData: {
     repoNames: string[] | null;
-    repo: string | null;
+    repoName: string | null;
     error: string | null;
     loading: boolean;
     collapsed: boolean;
@@ -41,7 +41,7 @@ type Actions = {
   setToken(token: string): void;
   getRepos(): Promise<void>;
   setRepoFormCollapsed(collapsed: boolean): void;
-  setRepo(repo: string): void;
+  setRepoName(repoName: string): void;
   getBranches(): Promise<void>;
   setBranchFormCollapsed(collapsed: boolean): void;
   setBranch(branch: Branch): void;

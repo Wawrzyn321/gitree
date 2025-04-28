@@ -42,7 +42,7 @@ export const reducer = (state: AppState, action: Actions) => {
         repoData: {
           ...state.repoData,
           repoNames: [],
-          repo: null,
+          repoName: null,
         },
         branchData: {
           ...state.branchData,
@@ -79,16 +79,16 @@ export const reducer = (state: AppState, action: Actions) => {
       };
     }
     case ActionTypes.SET_REPO:
-      const { repo } = action;
+      const { repoName } = action;
       return {
         ...state,
         repoData: {
           ...state.repoData,
-          repo,
+          repoName,
         },
         treeData: {
           ...state.treeData,
-          ...(repo !== state.repoData.repo ? { files: [] } : {}),
+          ...(repoName !== state.repoData.repoName ? { files: [] } : {}),
         },
       };
     case ActionTypes.FETCH_BRANCHES:

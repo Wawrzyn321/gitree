@@ -10,14 +10,12 @@ import "./NodePanel.scss";
 import useColors from "../../hooks/useColors";
 
 interface NodePanelProps {
-  node: Node | null;
+  node: Node;
   showLink?: boolean;
 }
 
 export function NodePanel({ node, showLink }: NodePanelProps) {
   const { action: actionColor } = useColors();
-
-  if (!node) return null;
 
   const icon = node.type === "file" ? faFile : faFolder;
 

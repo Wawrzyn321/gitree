@@ -39,7 +39,7 @@ export function TreePath() {
           {node.path}
         </button>
       ))}
-      <p>Tip: Press SHIFT to select individual files.</p>
+      <i>Tip: Press SHIFT to select individual files.</i>
     </div>
   );
 }
