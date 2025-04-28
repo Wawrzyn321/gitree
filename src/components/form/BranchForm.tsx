@@ -4,7 +4,8 @@ import { GitreeContext } from "../../state";
 import { FormPanel } from "./FormPanel";
 
 export function BranchForm() {
-  const { state, setBranch, setBranchFormCollapsed, buildTree } = React.useContext(GitreeContext);
+  const { state, setBranch, setBranchFormCollapsed, buildTree } =
+    React.useContext(GitreeContext);
   const { branches, branch, loading, collapsed, error } = state.branchData;
   const { files, truncated } = state.treeData;
   const form = (
@@ -17,7 +18,7 @@ export function BranchForm() {
             value={branch ? branch.name : ".none"}
             onChange={(e) =>
               setBranch(
-                branches!.find((b: Branch) => b.name === e.target.value)!
+                branches!.find((b: Branch) => b.name === e.target.value)!,
               )
             }
           >

@@ -1,8 +1,8 @@
 import React from "react";
 
 import { GitreeContext } from "../../state";
-import { NodePanel } from './NodePanel';
-import './TreePanel.scss';
+import { NodePanel } from "./NodePanel";
+import "./TreePanel.scss";
 
 export function TreePanel() {
   const { state, setMainNode } = React.useContext(GitreeContext);

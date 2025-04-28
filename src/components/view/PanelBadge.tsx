@@ -1,5 +1,5 @@
 import React from "react";
-import useHasDarkTheme from './../../hooks/useHasDarkTheme';
+import useHasDarkTheme from "./../../hooks/useHasDarkTheme";
 
 import {
   faCheck,

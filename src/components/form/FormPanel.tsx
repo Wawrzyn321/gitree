@@ -1,6 +1,6 @@
 import React from "react";
 import { CollapsiblePanel } from "../view/CollapsiblePanel";
-import { PanelBadgeType } from '../view/PanelBadge';
+import { PanelBadgeType } from "../view/PanelBadge";
 
 export interface FormPanelProps {
   title: string;
@@ -13,7 +13,8 @@ export interface FormPanelProps {
 }
 
 export function FormPanel(props: FormPanelProps) {
-  const { title, isOk, collapsed, setCollapsed, loading, error, children } = props;
+  const { title, isOk, collapsed, setCollapsed, loading, error, children } =
+    props;
   let type: PanelBadgeType;
   if (error) {
     type = "Error";

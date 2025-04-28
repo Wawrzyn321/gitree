@@ -4,9 +4,8 @@ import { FormPanel } from "./FormPanel";
 import { RandomOwnerButton } from "./RandomOwnerButton";
 
 export function OwnerDataForm() {
-  const { state, setOwner, setOwnerFormCollapsed, setToken, getRepos } = React.useContext(
-    GitreeContext
-  );
+  const { state, setOwner, setOwnerFormCollapsed, setToken, getRepos } =
+    React.useContext(GitreeContext);
   const { owner, token, loading, collapsed, error } = state.ownerData;
   const { repos } = state.repoData;
 

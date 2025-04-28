@@ -1,18 +1,21 @@
-import React from "react";
+import React, { ForwardedRef, forwardRef } from "react";
 
 import { GitreeContext } from "../../state";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faExternalLinkAlt } from "@fortawesome/free-solid-svg-icons";
 import useColors from "../../hooks/useColors";
+import { Node } from "../../types/Node";
 
 interface NodeLinkProps {
-  node: React.ReactNode;
-  _ref?: any
+  node: Node;
 }
 
-export function NodeLink({ node, _ref }: NodeLinkProps) {
+export const NodeLink = forwardRef(function (
+  { node }: NodeLinkProps,
+  ref: ForwardedRef<HTMLAnchorElement>,
+) {
   const { getUrl } = React.useContext(GitreeContext);
-  const {action} = useColors();
+  const { action } = useColors();
 
   return (
     <a
@@ -20,9 +23,9 @@ export function NodeLink({ node, _ref }: NodeLinkProps) {
       target="_blank"
       rel="noopener noreferrer"
       aria-label="Open on GitHub"
-      ref={_ref}
+      ref={ref}
     >
       <FontAwesomeIcon color={action} icon={faExternalLinkAlt} />
     </a>
   );
-}
+});

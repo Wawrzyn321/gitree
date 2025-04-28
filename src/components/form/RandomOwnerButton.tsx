@@ -39,7 +39,12 @@ export function RandomOwnerButton() {
   };
 
   return (
-    <button style={style} type="button" className="link" onClick={setRandomOwner}>
+    <button
+      style={style}
+      type="button"
+      className="link"
+      onClick={setRandomOwner}
+    >
       <FontAwesomeIcon icon={faDice} color={action} />
     </button>
   );

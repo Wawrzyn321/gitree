@@ -26,7 +26,6 @@ export function NodePanel({ node, showLink }: NodePanelProps) {
       <h5>
         <FontAwesomeIcon color={actionColor} icon={icon} />
         Name: {node.path}
-        {/* @ts-ignore */}
         {showLink && <NodeLink node={node} />}
       </h5>
       <p>Size: {filesize(node.size)}</p>

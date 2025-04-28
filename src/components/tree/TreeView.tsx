@@ -15,9 +15,8 @@ interface TreeViewProps {
 }
 
 export function TreeView({ width, height }: TreeViewProps) {
-  const { state, setHoveredNode, setMainNode, setRenderer } = React.useContext(
-    GitreeContext
-  );
+  const { state, setHoveredNode, setMainNode, setRenderer } =
+    React.useContext(GitreeContext);
   const isDarkTheme = useHasDarkTheme();
   const colors = useColors();
 
@@ -38,8 +37,8 @@ export function TreeView({ width, height }: TreeViewProps) {
           setHoveredNode,
           setMainNode,
           isDarkTheme,
-          colors
-        )
+          colors,
+        ),
       );
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -47,12 +46,12 @@ export function TreeView({ width, height }: TreeViewProps) {
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
   React.useEffect(() => renderer?.draw(mainNode), [mainNode, renderer]);
-  
+
   return (
     <>
       <div className="tree-view-container">
         {!mainNode && !loading && <HelpBanner />}
-        {mainNode && <NodeLink node={mainNode} _ref={linkRef} />}
+        {mainNode && <NodeLink node={mainNode} ref={linkRef} />}
         <canvas ref={frontCanvasRef} width={width} height={height}></canvas>
         <canvas
           ref={canvasRef}

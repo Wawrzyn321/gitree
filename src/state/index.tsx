@@ -51,7 +51,7 @@ export const GitreeContext = React.createContext<any>(null);
 export const Provider = ({ children }: any) => {
   const [state, dispatch]: [AppState, any] = React.useReducer(
     reducer,
-    initialState
+    initialState,
   );
   const value = {
     state,
@@ -115,7 +115,7 @@ export const Provider = ({ children }: any) => {
           });
         } else {
           const masterBranch = branches.find(
-            (b: Branch) => (b.name === "master" || b.name === "main")
+            (b: Branch) => b.name === "master" || b.name === "main",
           );
           dispatch({
             type: actions.SET_BRANCHES,
@@ -131,8 +131,7 @@ export const Provider = ({ children }: any) => {
             error: `Can't fetch branches: ${e.message}.`,
             branches: [],
           });
-        }
-        else {
+        } else {
           throw e;
         }
       }
@@ -154,7 +153,7 @@ export const Provider = ({ children }: any) => {
           owner,
           token,
           repo,
-          branch!.commitSha
+          branch!.commitSha,
         );
         dispatch({
           type: actions.BUILD_TREE,
@@ -192,8 +191,9 @@ export const Provider = ({ children }: any) => {
       const repo = state.repoData.repo;
       const branch = state.branchData.branch;
       if (!branch) return;
-      return `https://github.com/${owner}/${repo}/tree/${branch!.name}/${node.dirPath
-        }`;
+      return `https://github.com/${owner}/${repo}/tree/${branch!.name}/${
+        node.dirPath
+      }`;
     },
   };
 
