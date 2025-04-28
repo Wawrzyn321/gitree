@@ -1,7 +1,7 @@
 import { Selection, SelectionCallback } from "./selection";
 import { Drawing } from "./Drawing";
 
-import { Vector2 } from "../types/Vector2";
+import { Point2 } from "../types/Point2";
 import { Node } from "../types/Node";
 import { Path } from "../types/Path";
 
@@ -78,7 +78,7 @@ export class TreeRenderer {
   }
 
   click(e: MouseEvent) {
-    e.preventDefault(); // stop selecting sorrounding texts
+    e.preventDefault(); // stop selecting surrounding texts
     if (this.currentPath === null) return;
     this.draw(this.currentPath.elem);
   }
@@ -106,14 +106,14 @@ export class TreeRenderer {
       e.firstFlag = true;
     }
 
-    const canvasSize = new Vector2(this.canvas.width, this.canvas.height);
-    this.drawSegment(node, Vector2.zero, canvasSize, 0);
+    const canvasSize = new Point2(this.canvas.width, this.canvas.height);
+    this.drawSegment(node, Point2.zero, canvasSize, 0);
   }
 
   private drawSegment(
     node: Node,
-    startPoint: Vector2,
-    endPoint: Vector2,
+    startPoint: Point2,
+    endPoint: Point2,
     depth: number,
   ) {
     if (++depth > this.maxLevels) return;
@@ -125,7 +125,13 @@ export class TreeRenderer {
       if (depth !== 1) {
         this.linkRef.style.display = `none`;
         const shape = this.drawing.drawRectPath(startPoint, endPoint);
-        this.allPaths.push(new Path(shape, node, startPoint, endPoint, false));
+        this.allPaths.push({
+          shape,
+          elem: node,
+          startPoint,
+          endPoint,
+          isMainPath: false,
+        });
       } else {
         const text = node.path;
         const size = this.drawing.measureText(text);
@@ -140,24 +146,28 @@ export class TreeRenderer {
 
     if (node.firstFlag) {
       const shape = this.drawing.drawRectPath(startPoint, endPoint);
-      this.firstLevelPaths.push(
-        new Path(shape, node, startPoint, endPoint, true),
-      );
+      this.firstLevelPaths.push({
+        shape,
+        elem: node,
+        startPoint,
+        endPoint,
+        isMainPath: true,
+      });
     }
 
     const parts: Node[] = partition(node)!;
 
     const ratio = this.calculatePartsRatio(parts);
 
-    let firstEnd: Vector2, secondStart: Vector2;
+    let firstEnd: Point2, secondStart: Point2;
     if (endPoint.x - startPoint.x > endPoint.y - startPoint.y) {
       const divPointX = lerp(startPoint.x, endPoint.x, ratio);
-      firstEnd = new Vector2(divPointX, endPoint.y);
-      secondStart = new Vector2(divPointX, startPoint.y);
+      firstEnd = new Point2(divPointX, endPoint.y);
+      secondStart = new Point2(divPointX, startPoint.y);
     } else {
       const divPointY = lerp(startPoint.y, endPoint.y, ratio);
-      firstEnd = new Vector2(endPoint.x, divPointY);
-      secondStart = new Vector2(startPoint.x, divPointY);
+      firstEnd = new Point2(endPoint.x, divPointY);
+      secondStart = new Point2(startPoint.x, divPointY);
     }
     this.drawing.drawLine(firstEnd, secondStart);
 
@@ -165,15 +175,23 @@ export class TreeRenderer {
     if (depth === 1) {
       if (!parts[0].isLeaf) {
         const first = this.drawing.drawRectPath(startPoint, firstEnd);
-        this.subdivPaths.push(
-          new Path(first, parts[0], startPoint, firstEnd, true),
-        );
+        this.subdivPaths.push({
+          shape: first,
+          elem: parts[0],
+          startPoint,
+          endPoint: firstEnd,
+          isMainPath: true,
+        });
       }
       if (!parts[1].isLeaf) {
         const second = this.drawing.drawRectPath(secondStart, endPoint);
-        this.subdivPaths.push(
-          new Path(second, parts[1], secondStart, endPoint, true),
-        );
+        this.subdivPaths.push({
+          shape: second,
+          elem: parts[1],
+          startPoint: secondStart,
+          endPoint,
+          isMainPath: true,
+        });
       }
     }
 

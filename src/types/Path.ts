@@ -1,24 +1,10 @@
 import { Node } from "./Node";
-import { Vector2 } from "./Vector2";
+import { Point2 } from "./Point2";
 
-export class Path {
+export type Path = {
   shape: Path2D;
   elem: Node;
-  start: Vector2;
-  end: Vector2;
+  startPoint: Point2;
+  endPoint: Point2;
   isMainPath: boolean;
-
-  constructor(
-    shape: Path2D,
-    elem: Node,
-    start: Vector2,
-    end: Vector2,
-    isMainPath: boolean,
-  ) {
-    this.shape = shape;
-    this.elem = elem;
-    this.start = start;
-    this.end = end;
-    this.isMainPath = isMainPath;
-  }
-}
+};

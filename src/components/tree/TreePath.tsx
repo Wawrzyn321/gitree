@@ -4,6 +4,16 @@ import { GitreeContext } from "../../state";
 import { Node } from "../../types/Node";
 import "./TreePath.scss";
 
+const createPath = (node: Node): Node[] => {
+  const pathSegments: Node[] = [];
+  let currentNode: Node | null = node;
+  do {
+    pathSegments.unshift(currentNode);
+    currentNode = currentNode.parent;
+  } while (currentNode !== null);
+  return pathSegments;
+};
+
 export function TreePath() {
   const {
     state: {
@@ -11,16 +21,6 @@ export function TreePath() {
     },
     setMainNode,
   } = React.useContext(GitreeContext);
-
-  const createPath = (node: Node): Node[] => {
-    const pathSegments: Node[] = [];
-    let currentNode: Node | null = node;
-    do {
-      pathSegments.unshift(currentNode);
-      currentNode = currentNode.parent;
-    } while (currentNode !== null);
-    return pathSegments;
-  };
 
   if (!mainNode) {
     return null;

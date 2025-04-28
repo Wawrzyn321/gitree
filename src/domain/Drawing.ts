@@ -1,5 +1,5 @@
 import { Colors } from "../hooks/useColors";
-import { Vector2 } from "../types/Vector2";
+import { Point2 } from "../types/Point2";
 
 export class Drawing {
   private readonly minTextSize = 16;
@@ -20,7 +20,7 @@ export class Drawing {
     this.colors = colors;
   }
 
-  drawLine(from: Vector2, to: Vector2): void {
+  drawLine(from: Point2, to: Point2): void {
     this.ctx.beginPath();
     this.ctx.moveTo(from.x, from.y);
     this.ctx.lineTo(to.x, to.y);
@@ -31,16 +31,16 @@ export class Drawing {
     return this.ctx.measureText(text);
   }
 
-  drawSelectionText(start: Vector2, end: Vector2, text: string) {
+  drawSelectionText(start: Point2, end: Point2, text: string) {
     this.fitText(start, end, text, "40px Arial", "white", 1);
   }
 
-  drawNodeText(start: Vector2, end: Vector2, text: string): void {
+  drawNodeText(start: Point2, end: Point2, text: string): void {
     const color = this.hasDarkTheme ? "#FFFD" : "black";
     this.fitText(start, end, text, "10px Arial", color, this.maxTextScale);
   }
 
-  drawRectPath(start: Vector2, end: Vector2): Path2D {
+  drawRectPath(start: Point2, end: Point2): Path2D {
     const shape = new Path2D();
 
     this.ctx.beginPath();
@@ -51,14 +51,14 @@ export class Drawing {
     return shape;
   }
 
-  drawOutline(start: Vector2, end: Vector2) {
+  drawOutline(start: Point2, end: Point2) {
     this.ctx.strokeStyle = "white";
     this.ctx.lineWidth = 5;
     const size = end.sub(start);
     this.ctx.strokeRect(start.x, start.y, size.x, size.y);
   }
 
-  fillArea(start: Vector2, end: Vector2, color: string): void {
+  fillArea(start: Point2, end: Point2, color: string): void {
     const size = end.sub(start);
 
     this.ctx.fillStyle = color;
@@ -72,8 +72,8 @@ export class Drawing {
   }
 
   private fitText(
-    start: Vector2,
-    end: Vector2,
+    start: Point2,
+    end: Point2,
     text: string,
     font: string,
     color: string,
@@ -105,7 +105,7 @@ export class Drawing {
     } else {
       scale = Math.min(bounds.x / width, maxScale);
     }
-    const pos = start.lerp(end, 0.5);
+    const pos = start.interpolate(end, 0.5);
 
     this.ctx.save();
 

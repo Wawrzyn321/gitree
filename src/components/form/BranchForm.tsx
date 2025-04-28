@@ -27,7 +27,7 @@ export function BranchForm() {
             </option>
             {branches &&
               branches.map((b: Branch) => (
-                <option key={b.commitSha} value={b.name}>
+                <option key={b.commitSha + b.name} value={b.name}>
                   {b.name}
                 </option>
               ))}
