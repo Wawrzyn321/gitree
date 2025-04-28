@@ -2,7 +2,7 @@ import React from "react";
 
 import { Node } from "../../types/Node";
 import "./TreePath.scss";
-import { useGitreeContext } from "../../state/useGitreeContext";
+import { useActions, useGitreeState } from "../../state/hooks";
 
 const createPath = (node: Node): Node[] => {
   const pathSegments: Node[] = [];
@@ -15,18 +15,14 @@ const createPath = (node: Node): Node[] => {
 };
 
 export function TreePath() {
-  const {
-    state: {
-      treeData: { mainNode },
-    },
-    setMainNode,
-  } = useGitreeContext();
+  const { treeData } = useGitreeState();
+  const { setMainNode } = useActions("tree");
 
-  if (!mainNode) {
+  if (!treeData.mainNode) {
     return null;
   }
 
-  const path = createPath(mainNode);
+  const path = createPath(treeData.mainNode);
 
   return (
     <div className="tree-path">

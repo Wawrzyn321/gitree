@@ -4,8 +4,8 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faExternalLinkAlt } from "@fortawesome/free-solid-svg-icons";
 import useColors from "../../hooks/useColors";
 import { Node } from "../../types/Node";
-import { useGitreeContext } from "../../state/useGitreeContext";
 import { AppState } from "../../state/types";
+import { useGitreeState } from "../../state/hooks";
 
 interface NodeLinkProps {
   node: Node;
@@ -27,7 +27,7 @@ export const NodeLink = forwardRef(function (
   { node }: NodeLinkProps,
   ref: ForwardedRef<HTMLAnchorElement>,
 ) {
-  const { state } = useGitreeContext();
+  const state = useGitreeState();
   const { action } = useColors();
 
   return (

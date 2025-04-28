@@ -35,17 +35,26 @@ export interface AppState {
   };
 }
 
-type Actions = {
+export type OwnerFormActions = {
   setOwnerFormCollapsed(collapsed: boolean): void;
   setOwner(owner: string): void;
   setToken(token: string): void;
   getRepos(): Promise<void>;
+};
+
+export type RepositoryFormActions = {
   setRepoFormCollapsed(collapsed: boolean): void;
   setRepoName(repoName: string): void;
   getBranches(): Promise<void>;
+};
+
+export type BranchFormActions = {
   setBranchFormCollapsed(collapsed: boolean): void;
   setBranch(branch: Branch): void;
   buildTree(): Promise<void>;
+};
+
+export type TreeActions = {
   setRenderer(renderer: TreeRenderer): void;
   setHoveredNode(hoveredNode: Node | null): void;
   setMainNode(mainNode: Node | null): void;
@@ -53,4 +62,8 @@ type Actions = {
 
 export type GitreeContextType = {
   state: AppState;
-} & Actions;
+  ownerFormActions: OwnerFormActions;
+  repositoryFormActions: RepositoryFormActions;
+  branchFormActions: BranchFormActions;
+  treeActions: TreeActions;
+};

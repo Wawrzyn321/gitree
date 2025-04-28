@@ -2,7 +2,7 @@ import React, { CSSProperties, MouseEvent } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faDice } from "@fortawesome/free-solid-svg-icons";
 import useColors from "../../hooks/useColors";
-import { useGitreeContext } from "../../state/useGitreeContext";
+import { useActions, useGitreeState } from "../../state/hooks";
 import { getRandomOwner } from "./utils/getRandomOwner";
 
 const style = {
@@ -13,12 +13,12 @@ const style = {
 
 export function RandomOwnerButton() {
   const { action } = useColors();
-  const { state, setOwner } = useGitreeContext();
-  const { owner } = state.ownerData;
+  const { ownerData } = useGitreeState();
+  const { setOwner } = useActions("owner");
 
   const setRandomOwner = (e: MouseEvent) => {
     e.preventDefault();
-    setOwner(getRandomOwner(owner));
+    setOwner(getRandomOwner(ownerData.owner));
   };
 
   return (

@@ -7,7 +7,7 @@ import { NodeLink } from "./NodeLink";
 import { HelpBanner } from "./HelpBanner";
 import useHasDarkTheme from "../../hooks/useHasDarkTheme";
 import useColors from "../../hooks/useColors";
-import { useGitreeContext } from "../../state/useGitreeContext";
+import { useActions, useGitreeState } from "../../state/hooks";
 
 interface TreeViewProps {
   width: number;
@@ -15,13 +15,12 @@ interface TreeViewProps {
 }
 
 export function TreeView({ width, height }: TreeViewProps) {
-  const { state, setHoveredNode, setMainNode, setRenderer } =
-    useGitreeContext();
+  const { branchData, treeData } = useGitreeState();
+  const { setHoveredNode, setMainNode, setRenderer } = useActions("tree");
   const isDarkTheme = useHasDarkTheme();
   const colors = useColors();
 
-  const { loading } = state.branchData;
-  const { tree, mainNode, renderer } = state.treeData;
+  const { tree, mainNode, renderer } = treeData;
 
   const canvasRef = React.useRef<HTMLCanvasElement>(null);
   const frontCanvasRef = React.useRef<HTMLCanvasElement>(null);
@@ -54,7 +53,7 @@ export function TreeView({ width, height }: TreeViewProps) {
   return (
     <>
       <div className="tree-view-container">
-        {!mainNode && !loading && <HelpBanner />}
+        {!mainNode && !branchData.loading && <HelpBanner />}
         {mainNode && <NodeLink node={mainNode} ref={linkRef} />}
         <canvas ref={frontCanvasRef} width={width} height={height}></canvas>
         <canvas

@@ -1,13 +1,14 @@
 import React from "react";
 import { FormPanel } from "./FormPanel";
 import { RandomOwnerButton } from "./RandomOwnerButton";
-import { useGitreeContext } from "../../state/useGitreeContext";
+import { useActions, useGitreeState } from "../../state/hooks";
 
 export function OwnerDataForm() {
-  const { state, setOwner, setOwnerFormCollapsed, setToken, getRepos } =
-    useGitreeContext();
-  const { owner, token, loading, collapsed, error } = state.ownerData;
-  const { repoNames } = state.repoData;
+  const { ownerData, repoData } = useGitreeState();
+  const { setOwner, setOwnerFormCollapsed, setToken, getRepos } =
+    useActions("owner");
+  const { owner, token, loading, collapsed, error } = ownerData;
+  const { repoNames } = repoData;
 
   return (
     <FormPanel

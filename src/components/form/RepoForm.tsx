@@ -1,12 +1,13 @@
 import React from "react";
 import { FormPanel } from "./FormPanel";
-import { useGitreeContext } from "../../state/useGitreeContext";
+import { useActions, useGitreeState } from "../../state/hooks";
 
 export function RepoForm() {
-  const { state, setRepoName, setRepoFormCollapsed, getBranches } =
-    useGitreeContext();
-  const { repoNames, repoName, loading, collapsed, error } = state.repoData;
-  const { branches } = state.branchData;
+  const { repoData, branchData } = useGitreeState();
+  const { setRepoName, setRepoFormCollapsed, getBranches } =
+    useActions("repository");
+
+  const { repoNames, repoName, loading, collapsed, error } = repoData;
 
   return (
     <FormPanel
@@ -14,7 +15,7 @@ export function RepoForm() {
       setCollapsed={setRepoFormCollapsed}
       loading={loading}
       error={error}
-      isOk={(branches ?? []).length > 0}
+      isOk={(branchData.branches ?? []).length > 0}
       title="Repository"
     >
       <section>

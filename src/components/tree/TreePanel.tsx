@@ -2,11 +2,13 @@ import React from "react";
 
 import { NodePanel } from "./NodePanel";
 import "./TreePanel.scss";
-import { useGitreeContext } from "../../state/useGitreeContext";
+import { useActions, useGitreeState } from "../../state/hooks";
 
 export function TreePanel() {
-  const { state, setMainNode } = useGitreeContext();
-  const { tree, mainNode, hoveredNode } = state.treeData;
+  const { treeData } = useGitreeState();
+  const { setMainNode } = useActions("tree");
+
+  const { tree, mainNode, hoveredNode } = treeData;
 
   return (
     <div className="tree-panel">

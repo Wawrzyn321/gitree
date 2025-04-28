@@ -1,10 +1,8 @@
 import React from "react";
-import { useGitreeContext } from "../../state/useGitreeContext";
+import { useGitreeState } from "../../state/hooks";
 
 export function TruncationWarning() {
-  const {
-    state: { treeData },
-  } = useGitreeContext();
+  const { treeData } = useGitreeState();
 
   if (!treeData.truncated) {
     return null;
