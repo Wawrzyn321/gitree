@@ -57,7 +57,7 @@ type SetReposAction = Action<
   ActionTypes.SET_REPOS,
   {
     error: string | null;
-    repos: string[] | null;
+    repoNames: string[] | null;
   }
 >;
 

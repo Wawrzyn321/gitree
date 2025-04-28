@@ -1,39 +1,46 @@
-import { Branch } from "../types/Branch";
-import { FileList } from "../types/FileList";
 import * as ApiTypes from "./ApiTypes";
 
-const API_URL = "https://api.github.com";
-
-const makeHeaders = (owner: string, token?: string) => {
-  if (!token) {
-    return {};
-  }
-  return {
-    headers: {
-      Authorization: "Basic " + btoa(`${owner}:${token}`),
-    },
-  };
+type FetchArgs = {
+  owner: string;
+  token?: string;
+  url: string;
 };
 
-const processResponse = async <TIn, TOut>(
-  response: Response,
-  fn: (t: TIn) => TOut,
-) => {
+async function doFetch<T>({ owner, token, url }: FetchArgs) {
+  const API_URL = "https://api.github.com";
+
+  function makeHeaders(owner: string, token?: string) {
+    if (!token) {
+      return {};
+    }
+    return {
+      headers: {
+        Authorization: "Basic " + btoa(`${owner}:${token}`),
+      },
+    };
+  }
+
+  const response = await fetch(API_URL + url, makeHeaders(owner, token));
   if (response.ok) {
-    return fn(await response.json());
+    return response.json() as T;
   } else {
     const error = JSON.parse(await response.text());
     throw Error(error.message);
   }
-};
+}
 
-export const fetchRepoNames = async (owner: string, token?: string) => {
-  const url = `${API_URL}/users/${owner}/repos?per_page=100`;
-  const response = await fetch(url, makeHeaders(owner, token));
+export const fetchRepoNames = async (
+  owner: string,
+  token: string | undefined,
+) => {
+  const url = `/users/${owner}/repos?per_page=100`;
+  const repositories = await doFetch<ApiTypes.Repository[]>({
+    owner,
+    token,
+    url,
+  });
 
-  return processResponse<ApiTypes.Repository[], string[]>(response, (data) =>
-    data.map((repo) => repo.name),
-  );
+  return repositories.map((repo) => repo.name);
 };
 
 export const fetchBranches = async (
@@ -41,15 +48,13 @@ export const fetchBranches = async (
   token: string | undefined,
   repo: string,
 ) => {
-  const url = `${API_URL}/repos/${owner}/${repo}/branches?per_page=100`;
-  const response = await fetch(url, makeHeaders(owner, token));
+  const url = `/repos/${owner}/${repo}/branches?per_page=100`;
+  const branches = await doFetch<ApiTypes.Branch[]>({ url, owner, token });
 
-  return processResponse<ApiTypes.Branch[], Branch[]>(response, (json) =>
-    json.map((branch) => ({
-      name: branch.name,
-      commitSha: branch.commit.sha,
-    })),
-  );
+  return branches.map((branch) => ({
+    name: branch.name,
+    commitSha: branch.commit.sha,
+  }));
 };
 
 export const fetchFiles = async (
@@ -58,14 +63,11 @@ export const fetchFiles = async (
   repo: string,
   sha: string,
 ) => {
-  const url = `${API_URL}/repos/${owner}/${repo}/git/trees/${sha}?recursive=true`;
-  const response = await fetch(url, makeHeaders(owner, token));
+  const url = `/repos/${owner}/${repo}/git/trees/${sha}?recursive=true`;
+  const response = await doFetch<ApiTypes.Tree>({ url, owner, token });
+  const files = response.tree
+    .filter((node) => node.type === "blob")
+    .map((node) => ({ path: node.path, size: node.size }));
 
-  return processResponse<ApiTypes.Tree, FileList>(response, (data) => {
-    const files = data.tree
-      .filter((node) => node.type === "blob")
-      .map((node) => ({ path: node.path, size: node.size }));
-
-    return { files, truncated: data.truncated };
-  });
+  return { files, truncated: response.truncated };
 };

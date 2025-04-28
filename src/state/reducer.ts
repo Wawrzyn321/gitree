@@ -41,7 +41,7 @@ export const reducer = (state: AppState, action: Actions) => {
         },
         repoData: {
           ...state.repoData,
-          repos: [],
+          repoNames: [],
           repo: null,
         },
         branchData: {
@@ -51,7 +51,7 @@ export const reducer = (state: AppState, action: Actions) => {
         },
       };
     case ActionTypes.SET_REPOS: {
-      const { error, repos } = action;
+      const { error, repoNames } = action;
       return {
         ...state,
         ownerData: {
@@ -62,7 +62,7 @@ export const reducer = (state: AppState, action: Actions) => {
         },
         repoData: {
           ...state.repoData,
-          repos,
+          repoNames,
           collapsed: !!error,
         },
       };

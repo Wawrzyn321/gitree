@@ -19,6 +19,7 @@ export const GitreeContext = React.createContext<GitreeContextType | null>(
 
 export const GitreeProvider = ({ children }: { children: React.ReactNode }) => {
   const [state, dispatch] = React.useReducer(reducer, initialState);
+
   const value: GitreeContextType = {
     state,
     setOwnerFormCollapsed: (collapsed: boolean) => {
@@ -34,16 +35,20 @@ export const GitreeProvider = ({ children }: { children: React.ReactNode }) => {
       dispatch({ type: ActionTypes.FETCH_REPOS });
       const { owner, token } = state.ownerData;
       try {
-        const repos = await fetchRepoNames(owner, token);
-        if (!repos.length) {
+        const repoNames = await fetchRepoNames(owner, token);
+        if (!repoNames.length) {
           dispatch({
             type: ActionTypes.SET_REPOS,
             error:
               "This user appears to have no repos. Why don't you try another one?",
-            repos,
+            repoNames: repoNames,
           });
         } else {
-          dispatch({ type: ActionTypes.SET_REPOS, error: null, repos });
+          dispatch({
+            type: ActionTypes.SET_REPOS,
+            error: null,
+            repoNames: repoNames,
+          });
           storeOwner(owner);
           storeToken(token);
         }
@@ -52,7 +57,7 @@ export const GitreeProvider = ({ children }: { children: React.ReactNode }) => {
           dispatch({
             type: ActionTypes.SET_REPOS,
             error: `Can't fetch repos: ${e.message}.`,
-            repos: [],
+            repoNames: [],
           });
         } else {
           throw e;
