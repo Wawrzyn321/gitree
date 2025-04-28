@@ -1,6 +1,5 @@
 import React from "react";
 
-import { GitreeContext } from "../../state";
 import { TreeRenderer } from "../../domain/TreeRenderer";
 import { TreePath } from "./TreePath";
 import "./TreeView.scss";
@@ -8,6 +7,7 @@ import { NodeLink } from "./NodeLink";
 import { HelpBanner } from "./HelpBanner";
 import useHasDarkTheme from "../../hooks/useHasDarkTheme";
 import useColors from "../../hooks/useColors";
+import { useGitreeContext } from "../../state/useGitreeContext";
 
 interface TreeViewProps {
   width: number;
@@ -16,7 +16,7 @@ interface TreeViewProps {
 
 export function TreeView({ width, height }: TreeViewProps) {
   const { state, setHoveredNode, setMainNode, setRenderer } =
-    React.useContext(GitreeContext);
+    useGitreeContext();
   const isDarkTheme = useHasDarkTheme();
   const colors = useColors();
 
@@ -45,7 +45,11 @@ export function TreeView({ width, height }: TreeViewProps) {
   }, [canvasRef, tree]);
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  React.useEffect(() => renderer?.draw(mainNode), [mainNode, renderer]);
+  React.useEffect(() => {
+    if (mainNode && renderer) {
+      renderer.draw(mainNode);
+    }
+  }, [mainNode, renderer]);
 
   return (
     <>

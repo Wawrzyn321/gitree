@@ -1,11 +1,11 @@
 import React from "react";
 
-import { GitreeContext } from "../../state";
 import { NodePanel } from "./NodePanel";
 import "./TreePanel.scss";
+import { useGitreeContext } from "../../state/useGitreeContext";
 
 export function TreePanel() {
-  const { state, setMainNode } = React.useContext(GitreeContext);
+  const { state, setMainNode } = useGitreeContext();
   const { tree, mainNode, hoveredNode } = state.treeData;
 
   return (
@@ -15,8 +15,8 @@ export function TreePanel() {
           Reset
         </button>
         <button
-          disabled={!tree || !mainNode.parent}
-          onClick={() => setMainNode(mainNode.parent)}
+          disabled={!tree || !mainNode?.parent}
+          onClick={() => setMainNode(mainNode!.parent)}
         >
           Navigate up
         </button>

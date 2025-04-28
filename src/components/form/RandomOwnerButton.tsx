@@ -1,8 +1,8 @@
-import React, { CSSProperties } from "react";
+import React, { CSSProperties, MouseEvent } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faDice } from "@fortawesome/free-solid-svg-icons";
-import { GitreeContext } from "../../state";
 import useColors from "../../hooks/useColors";
+import { useGitreeContext } from "../../state/useGitreeContext";
 
 const owners = [
   "kubernetes",
@@ -26,10 +26,10 @@ const style = {
 
 export function RandomOwnerButton() {
   const { action } = useColors();
-  const { state, setOwner } = React.useContext(GitreeContext);
+  const { state, setOwner } = useGitreeContext();
   const { owner } = state.ownerData;
 
-  const setRandomOwner = (e: any) => {
+  const setRandomOwner = (e: MouseEvent) => {
     e.preventDefault();
     let nextOwner;
     do {

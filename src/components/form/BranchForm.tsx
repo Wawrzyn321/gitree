@@ -1,11 +1,11 @@
 import React from "react";
 import { Branch } from "../../types/Branch";
-import { GitreeContext } from "../../state";
 import { FormPanel } from "./FormPanel";
+import { useGitreeContext } from "../../state/useGitreeContext";
 
 export function BranchForm() {
   const { state, setBranch, setBranchFormCollapsed, buildTree } =
-    React.useContext(GitreeContext);
+    useGitreeContext();
   const { branches, branch, loading, collapsed, error } = state.branchData;
   const { files, truncated } = state.treeData;
   const form = (
@@ -52,7 +52,7 @@ export function BranchForm() {
       setCollapsed={setBranchFormCollapsed}
       loading={loading}
       error={error}
-      isOk={files && files.length}
+      isOk={files?.length > 0}
       title="Branch"
     >
       {form}

@@ -1,10 +1,10 @@
 import React from "react";
-import { GitreeContext } from "../../state";
 import { FormPanel } from "./FormPanel";
+import { useGitreeContext } from "../../state/useGitreeContext";
 
 export function RepoForm() {
   const { state, setRepo, setRepoFormCollapsed, getBranches } =
-    React.useContext(GitreeContext);
+    useGitreeContext();
   const { repos, repo, loading, collapsed, error } = state.repoData;
   const { branches } = state.branchData;
 
@@ -40,7 +40,7 @@ export function RepoForm() {
       setCollapsed={setRepoFormCollapsed}
       loading={loading}
       error={error}
-      isOk={branches && branches.length}
+      isOk={(branches?.length ?? 0) > 0}
       title="Repository"
     >
       {form}

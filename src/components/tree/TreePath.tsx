@@ -1,8 +1,8 @@
 import React from "react";
 
-import { GitreeContext } from "../../state";
 import { Node } from "../../types/Node";
 import "./TreePath.scss";
+import { useGitreeContext } from "../../state/useGitreeContext";
 
 const createPath = (node: Node): Node[] => {
   const pathSegments: Node[] = [];
@@ -20,7 +20,7 @@ export function TreePath() {
       treeData: { mainNode },
     },
     setMainNode,
-  } = React.useContext(GitreeContext);
+  } = useGitreeContext();
 
   if (!mainNode) {
     return null;

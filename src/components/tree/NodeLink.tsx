@@ -1,10 +1,10 @@
 import React, { ForwardedRef, forwardRef } from "react";
 
-import { GitreeContext } from "../../state";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faExternalLinkAlt } from "@fortawesome/free-solid-svg-icons";
 import useColors from "../../hooks/useColors";
 import { Node } from "../../types/Node";
+import { useGitreeContext } from "../../state/useGitreeContext";
 
 interface NodeLinkProps {
   node: Node;
@@ -14,7 +14,7 @@ export const NodeLink = forwardRef(function (
   { node }: NodeLinkProps,
   ref: ForwardedRef<HTMLAnchorElement>,
 ) {
-  const { getUrl } = React.useContext(GitreeContext);
+  const { getUrl } = useGitreeContext();
   const { action } = useColors();
 
   return (

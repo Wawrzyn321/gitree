@@ -8,6 +8,7 @@ import { Path } from "../types/Path";
 import { partition } from "./fileTree";
 import { lerp } from "./util";
 import { Colors } from "../hooks/useColors";
+import { MouseEvent } from "react";
 
 export class TreeRenderer {
   private canvas: HTMLCanvasElement;
@@ -52,7 +53,7 @@ export class TreeRenderer {
     this.setCurrentNode = currentNodeCallback;
   }
 
-  private getPathOverType(e: any): Path[] {
+  private getPathOverType(e: MouseEvent): Path[] {
     if (e.shiftKey) {
       if (e.ctrlKey) {
         return this.subdivPaths;
@@ -64,7 +65,7 @@ export class TreeRenderer {
     }
   }
 
-  mouseMove(e: any) {
+  mouseMove(e: MouseEvent) {
     const paths = this.getPathOverType(e);
     const pathOver = this.findPathOver(e, paths);
     if (this.currentPath !== pathOver) {
@@ -77,7 +78,7 @@ export class TreeRenderer {
     }
   }
 
-  click(e: MouseEvent) {
+  click(e: MouseEvent<HTMLCanvasElement>) {
     e.preventDefault(); // stop selecting surrounding texts
     if (this.currentPath === null) return;
     this.draw(this.currentPath.elem);
@@ -101,9 +102,9 @@ export class TreeRenderer {
     this.subdivPaths = [];
     this.drawing.clear();
 
-    node.firstFlag = false;
+    node.isTop = false;
     for (const e of node.elements) {
-      e.firstFlag = true;
+      e.isTop = true;
     }
 
     const canvasSize = new Point2(this.canvas.width, this.canvas.height);
@@ -144,7 +145,7 @@ export class TreeRenderer {
       return;
     }
 
-    if (node.firstFlag) {
+    if (node.isTop) {
       const shape = this.drawing.drawRectPath(startPoint, endPoint);
       this.firstLevelPaths.push({
         shape,
@@ -211,7 +212,7 @@ export class TreeRenderer {
     return ratio;
   }
 
-  private findPathOver(e: any, paths: Path[]): Path | null {
+  private findPathOver(e: MouseEvent, paths: Path[]): Path | null {
     const { offsetX: x, offsetY: y } = e.nativeEvent;
     const ctx = this.canvas.getContext("2d")!;
     const pp = (path: Path) => ctx.isPointInPath(path.shape, x, y);

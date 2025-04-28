@@ -1,5 +1,6 @@
 import { TreeRenderer } from "../domain/TreeRenderer";
 import { Branch } from "../types/Branch";
+import { Node } from "../types/Node";
 
 export interface AppState {
   ownerData: {
@@ -27,6 +28,7 @@ export interface AppState {
     files: string[];
     truncated: boolean;
     tree: Node | null;
+    mainNode: Node | null;
     hoveredNode: Node | null;
     renderer: TreeRenderer | null;
   };

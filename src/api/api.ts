@@ -1,12 +1,7 @@
 import { Branch } from "../types/Branch";
-import {
-  GitHubRepository,
-  GitHubBranch,
-  GitHubTreeNode,
-  PossiblyTruncatedFiles,
-} from "./ApiTypes";
+import * as ApiTypes from "./ApiTypes";
 
-const apiUrl = "https://api.github.com";
+const API_URL = "https://api.github.com";
 
 const makeHeaders = (owner: string, token?: string) => {
   if (!token) {
@@ -19,7 +14,10 @@ const makeHeaders = (owner: string, token?: string) => {
   };
 };
 
-const processResponse = async <T>(response: Response, fn: (t: any) => T) => {
+const processResponse = async <TIn, TOut>(
+  response: Response,
+  fn: (t: TIn) => TOut,
+) => {
   if (response.ok) {
     return fn(await response.json());
   } else {
@@ -28,15 +26,12 @@ const processResponse = async <T>(response: Response, fn: (t: any) => T) => {
   }
 };
 
-export const fetchRepos = async (
-  owner: string,
-  token?: string,
-): Promise<string[]> => {
-  const url = `${apiUrl}/users/${owner}/repos?per_page=100`;
+export const fetchRepoNames = async (owner: string, token?: string) => {
+  const url = `${API_URL}/users/${owner}/repos?per_page=100`;
   const response = await fetch(url, makeHeaders(owner, token));
 
-  return processResponse<string[]>(response, (json: any) =>
-    json.map((repo: GitHubRepository) => repo.name),
+  return processResponse<ApiTypes.Repository[], string[]>(response, (data) =>
+    data.map((repo) => repo.name),
   );
 };
 
@@ -44,12 +39,12 @@ export const fetchBranches = async (
   owner: string,
   token: string | undefined,
   repo: string,
-): Promise<Branch[]> => {
-  const url = `${apiUrl}/repos/${owner}/${repo}/branches?per_page=100`;
+) => {
+  const url = `${API_URL}/repos/${owner}/${repo}/branches?per_page=100`;
   const response = await fetch(url, makeHeaders(owner, token));
 
-  return processResponse<Branch[]>(response, (json: any) =>
-    json.map((branch: GitHubBranch) => ({
+  return processResponse<ApiTypes.Branch[], Branch[]>(response, (json) =>
+    json.map((branch: ApiTypes.Branch) => ({
       name: branch.name,
       commitSha: branch.commit.sha,
     })),
@@ -61,14 +56,15 @@ export const fetchFiles = async (
   token: string | undefined,
   repo: string,
   sha: string,
-): Promise<PossiblyTruncatedFiles> => {
-  const url = `${apiUrl}/repos/${owner}/${repo}/git/trees/${sha}?recursive=true`;
+) => {
+  const url = `${API_URL}/repos/${owner}/${repo}/git/trees/${sha}?recursive=true`;
   const response = await fetch(url, makeHeaders(owner, token));
 
-  return processResponse<PossiblyTruncatedFiles>(response, (json: any) => {
-    const files = json.tree
-      .filter((node: GitHubTreeNode) => node.type === "blob")
-      .map((node: GitHubTreeNode) => ({ path: node.path, size: node.size }));
-    return { files, truncated: json.truncated };
+  return processResponse<ApiTypes.Tree, ApiTypes.FileList>(response, (data) => {
+    const files = data.tree
+      .filter((node) => node.type === "blob")
+      .map((node) => ({ path: node.path, size: node.size }));
+
+    return { files, truncated: data.truncated };
   });
 };

@@ -10,7 +10,7 @@ import "./NodePanel.scss";
 import useColors from "../../hooks/useColors";
 
 interface NodePanelProps {
-  node: Node;
+  node: Node | null;
   showLink?: boolean;
 }
 

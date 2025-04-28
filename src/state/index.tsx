@@ -5,7 +5,7 @@ import { Node } from "../types/Node";
 
 import { readFromStorage, saveToStorage } from "../domain/storage";
 import { buildTree } from "../domain/fileTree";
-import { fetchRepos, fetchBranches, fetchFiles } from "../api/api";
+import { fetchRepoNames, fetchBranches, fetchFiles } from "../api/api";
 import { TreeRenderer } from "../domain/TreeRenderer";
 
 import { AppState } from "./types";
@@ -41,19 +41,37 @@ const initialState: AppState = {
     files: [],
     truncated: false,
     tree: null,
+    mainNode: null,
     hoveredNode: null,
     renderer: null,
   },
 };
 
-export const GitreeContext = React.createContext<any>(null);
+type GitreeContextType = {
+  state: AppState;
+  setOwnerFormCollapsed(collapsed: boolean): void;
+  setOwner(owner: string): void;
+  setToken(token: string): void;
+  getRepos(): Promise<void>;
+  setRepoFormCollapsed(collapsed: boolean): void;
+  setRepo(repo: string): void;
+  getBranches(): Promise<void>;
+  setBranchFormCollapsed(collapsed: boolean): void;
+  setBranch(branch: Branch): void;
+  buildTree(): Promise<void>;
+  setRenderer(renderer: TreeRenderer): void;
+  setHoveredNode(hoveredNode: Node | null): void;
+  setMainNode(mainNode: Node | null): void;
+  getUrl(node: Node): string | undefined;
+};
 
-export const Provider = ({ children }: any) => {
-  const [state, dispatch]: [AppState, any] = React.useReducer(
-    reducer,
-    initialState,
-  );
-  const value = {
+export const GitreeContext = React.createContext<GitreeContextType | null>(
+  null,
+);
+
+export const Provider = ({ children }: { children: React.ReactNode }) => {
+  const [state, dispatch] = React.useReducer(reducer, initialState);
+  const value: GitreeContextType = {
     state,
     setOwnerFormCollapsed: (collapsed: boolean) => {
       dispatch({ type: actions.SET_OWNER_FORM_COLLAPSED, collapsed });
@@ -68,7 +86,7 @@ export const Provider = ({ children }: any) => {
       dispatch({ type: actions.FETCH_REPOS });
       const { owner, token } = state.ownerData;
       try {
-        const repos = await fetchRepos(owner, token);
+        const repos = await fetchRepoNames(owner, token);
         if (!repos.length) {
           dispatch({
             type: actions.SET_REPOS,
@@ -140,7 +158,7 @@ export const Provider = ({ children }: any) => {
     setBranchFormCollapsed: (collapsed: boolean) => {
       dispatch({ type: actions.SET_BRANCH_FORM_COLLAPSED, collapsed });
     },
-    setBranch: (branch: string) => {
+    setBranch: (branch: Branch) => {
       dispatch({ type: actions.SET_BRANCH, branch });
     },
     buildTree: async () => {
@@ -179,10 +197,10 @@ export const Provider = ({ children }: any) => {
     setRenderer: (renderer: TreeRenderer) => {
       dispatch({ type: actions.SET_RENDERER, renderer });
     },
-    setHoveredNode: (hoveredNode: Node) => {
+    setHoveredNode: (hoveredNode: Node | null) => {
       dispatch({ type: actions.SET_HOVERED_NODE, hoveredNode });
     },
-    setMainNode: (mainNode: Node) => {
+    setMainNode: (mainNode: Node | null) => {
       dispatch({ type: actions.SET_MAIN_NODE, mainNode });
     },
     // it should be an action, but having all the state here, it's too enticing...
@@ -190,7 +208,9 @@ export const Provider = ({ children }: any) => {
       const owner = state.ownerData.owner;
       const repo = state.repoData.repo;
       const branch = state.branchData.branch;
-      if (!branch) return;
+      if (!branch) {
+        return undefined;
+      }
       return `https://github.com/${owner}/${repo}/tree/${branch!.name}/${
         node.dirPath
       }`;
