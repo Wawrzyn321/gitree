@@ -7,32 +7,7 @@ export function OwnerDataForm() {
   const { state, setOwner, setOwnerFormCollapsed, setToken, getRepos } =
     useGitreeContext();
   const { owner, token, loading, collapsed, error } = state.ownerData;
-  const { repos } = state.repoData;
-
-  const form = (
-    <section>
-      <label>
-        User/organisation <RandomOwnerButton />
-        <input
-          required
-          type="text"
-          value={owner}
-          onChange={(e) => setOwner(e.target.value)}
-        />
-      </label>
-      <label>
-        GitHub token (optional)
-        <input
-          type="password"
-          value={token}
-          onChange={(e) => setToken(e.target.value)}
-        />
-      </label>
-      <button type="button" disabled={!owner} onClick={getRepos}>
-        Get repos
-      </button>
-    </section>
-  );
+  const { repoNames } = state.repoData;
 
   return (
     <FormPanel
@@ -40,10 +15,31 @@ export function OwnerDataForm() {
       setCollapsed={setOwnerFormCollapsed}
       loading={loading}
       error={error}
-      isOk={(repos?.length ?? 0) > 0}
+      isOk={(repoNames ?? []).length > 0}
       title="Owner data"
     >
-      {form}
+      <section>
+        <label>
+          User/organisation <RandomOwnerButton />
+          <input
+            required
+            type="text"
+            value={owner}
+            onChange={(e) => setOwner(e.target.value)}
+          />
+        </label>
+        <label>
+          GitHub token (optional)
+          <input
+            type="password"
+            value={token}
+            onChange={(e) => setToken(e.target.value)}
+          />
+        </label>
+        <button type="button" disabled={!owner} onClick={getRepos}>
+          Get repos
+        </button>
+      </section>
     </FormPanel>
   );
 }

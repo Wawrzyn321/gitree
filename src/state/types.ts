@@ -12,7 +12,7 @@ export interface AppState {
     collapsed: boolean;
   };
   repoData: {
-    repos: string[] | null;
+    repoNames: string[] | null;
     repo: string | null;
     error: string | null;
     loading: boolean;

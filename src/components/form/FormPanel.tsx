@@ -12,25 +12,39 @@ export interface FormPanelProps {
   children: React.ReactNode;
 }
 
+type getBadgeTypeArgs = {
+  error: string | null;
+  isOk: boolean;
+  loading: boolean;
+};
+
+function getBadgeType({
+  error,
+  isOk,
+  loading,
+}: getBadgeTypeArgs): PanelBadgeType {
+  if (error) {
+    return "Error";
+  } else if (loading) {
+    return "Loading";
+  } else if (isOk) {
+    return "OK";
+  } else {
+    return "None";
+  }
+}
+
 export function FormPanel(props: FormPanelProps) {
   const { title, isOk, collapsed, setCollapsed, loading, error, children } =
     props;
-  let type: PanelBadgeType;
-  if (error) {
-    type = "Error";
-  } else if (loading) {
-    type = "Loading";
-  } else if (isOk) {
-    type = "OK";
-  } else {
-    type = "None";
-  }
+
+  const badgeType = getBadgeType({ error, isOk, loading });
 
   return (
     <CollapsiblePanel
       collapsed={collapsed}
       setCollapsed={setCollapsed}
-      type={type}
+      badgeType={badgeType}
       title={title}
     >
       {children}

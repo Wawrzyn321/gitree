@@ -4,7 +4,7 @@ import { faDice } from "@fortawesome/free-solid-svg-icons";
 import useColors from "../../hooks/useColors";
 import { useGitreeContext } from "../../state/useGitreeContext";
 
-const owners = [
+const OWNERS = [
   "kubernetes",
   "apache",
   "rust-lang",
@@ -17,6 +17,14 @@ const owners = [
   "angular",
   "kyma-project",
 ];
+
+function getRandomOwner(prevOwner: string) {
+  let nextOwner;
+  do {
+    nextOwner = OWNERS[Math.floor(Math.random() * OWNERS.length)];
+  } while (prevOwner === nextOwner);
+  return nextOwner;
+}
 
 const style = {
   margin: 0,
@@ -31,11 +39,7 @@ export function RandomOwnerButton() {
 
   const setRandomOwner = (e: MouseEvent) => {
     e.preventDefault();
-    let nextOwner;
-    do {
-      nextOwner = owners[Math.floor(Math.random() * owners.length)];
-    } while (owner === nextOwner);
-    setOwner(nextOwner);
+    setOwner(getRandomOwner(owner));
   };
 
   return (

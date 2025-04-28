@@ -8,17 +8,21 @@ interface CollapsiblePanelProps {
   setCollapsed: (collapsed: boolean) => void;
   title: string;
   children: React.ReactNode;
-  type: PanelBadgeType;
+  badgeType: PanelBadgeType;
 }
 
-export function CollapsiblePanel(props: CollapsiblePanelProps) {
-  const { collapsed, setCollapsed, title, type, children } = props;
-
+export function CollapsiblePanel({
+  collapsed,
+  setCollapsed,
+  title,
+  badgeType,
+  children,
+}: CollapsiblePanelProps) {
   return (
     <div className="collapsible-panel">
       <h4 className="title" onClick={() => setCollapsed(!collapsed)}>
         {title}
-        <PanelBadge type={type} />
+        <PanelBadge type={badgeType} />
       </h4>
       <div className={collapsed ? "content collapsed" : "content expanded"}>
         {children}
