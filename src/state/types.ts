@@ -1,5 +1,6 @@
 import { TreeRenderer } from "../domain/TreeRenderer";
 import { Branch } from "../types/Branch";
+import { FileList } from "../types/FileList";
 import { Node } from "../types/Node";
 
 export interface AppState {
@@ -12,7 +13,7 @@ export interface AppState {
   };
   repoData: {
     repos: string[] | null;
-    repo: string;
+    repo: string | null;
     error: string | null;
     loading: boolean;
     collapsed: boolean;
@@ -25,7 +26,7 @@ export interface AppState {
     collapsed: boolean;
   };
   treeData: {
-    files: string[];
+    files: FileList["files"];
     truncated: boolean;
     tree: Node | null;
     mainNode: Node | null;
@@ -48,7 +49,6 @@ type Actions = {
   setRenderer(renderer: TreeRenderer): void;
   setHoveredNode(hoveredNode: Node | null): void;
   setMainNode(mainNode: Node | null): void;
-  getUrl(node: Node): string | undefined;
 };
 
 export type GitreeContextType = {

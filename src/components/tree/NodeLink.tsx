@@ -5,21 +5,34 @@ import { faExternalLinkAlt } from "@fortawesome/free-solid-svg-icons";
 import useColors from "../../hooks/useColors";
 import { Node } from "../../types/Node";
 import { useGitreeContext } from "../../state/useGitreeContext";
+import { AppState } from "../../state/types";
 
 interface NodeLinkProps {
   node: Node;
+}
+
+function getNodeUrl(node: Node, state: AppState) {
+  const owner = state.ownerData.owner;
+  const repo = state.repoData.repo;
+  const branch = state.branchData.branch;
+  if (!branch) {
+    return undefined;
+  }
+  return `https://github.com/${owner}/${repo}/tree/${branch!.name}/${
+    node.dirPath
+  }`;
 }
 
 export const NodeLink = forwardRef(function (
   { node }: NodeLinkProps,
   ref: ForwardedRef<HTMLAnchorElement>,
 ) {
-  const { getUrl } = useGitreeContext();
+  const { state } = useGitreeContext();
   const { action } = useColors();
 
   return (
     <a
-      href={getUrl(node)}
+      href={getNodeUrl(node, state)}
       target="_blank"
       rel="noopener noreferrer"
       aria-label="Open on GitHub"

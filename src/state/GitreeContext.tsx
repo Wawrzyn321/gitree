@@ -17,7 +17,7 @@ export const GitreeContext = React.createContext<GitreeContextType | null>(
   null,
 );
 
-export const Provider = ({ children }: { children: React.ReactNode }) => {
+export const GitreeProvider = ({ children }: { children: React.ReactNode }) => {
   const [state, dispatch] = React.useReducer(reducer, initialState);
   const value: GitreeContextType = {
     state,
@@ -71,6 +71,10 @@ export const Provider = ({ children }: { children: React.ReactNode }) => {
       const { owner, token } = state.ownerData;
       const { repo } = state.repoData;
       try {
+        if (!repo) {
+          throw Error("Repo is not defined");
+        }
+
         const branches = await fetchBranches(owner, token, repo);
         if (!branches.length) {
           dispatch({
@@ -78,7 +82,7 @@ export const Provider = ({ children }: { children: React.ReactNode }) => {
             error:
               "This repo appears to have no branches. Why don't you try another one?",
             branches,
-            branch: undefined,
+            branch: null,
           });
         } else {
           const masterBranch = branches.find(
@@ -88,7 +92,7 @@ export const Provider = ({ children }: { children: React.ReactNode }) => {
             type: actions.SET_BRANCHES,
             error: null,
             branches,
-            branch: masterBranch,
+            branch: masterBranch ?? null,
           });
         }
       } catch (e) {
@@ -97,7 +101,7 @@ export const Provider = ({ children }: { children: React.ReactNode }) => {
             type: actions.SET_BRANCHES,
             error: `Can't fetch branches: ${e.message}.`,
             branches: [],
-            branch: undefined,
+            branch: null,
           });
         } else {
           throw e;
@@ -117,12 +121,17 @@ export const Provider = ({ children }: { children: React.ReactNode }) => {
       const { repo } = state.repoData;
       const { branch } = state.branchData;
       try {
+        if (!repo) {
+          throw Error("Repo is not defined");
+        }
+
         const { files, truncated } = await fetchFiles(
           owner,
           token,
           repo,
           branch!.commitSha,
         );
+
         dispatch({
           type: actions.BUILD_TREE,
           error: null,
@@ -153,18 +162,6 @@ export const Provider = ({ children }: { children: React.ReactNode }) => {
     },
     setMainNode: (mainNode: Node | null) => {
       dispatch({ type: actions.SET_MAIN_NODE, mainNode });
-    },
-    // it should be an action, but having all the state here, it's too enticing...
-    getUrl: (node: Node) => {
-      const owner = state.ownerData.owner;
-      const repo = state.repoData.repo;
-      const branch = state.branchData.branch;
-      if (!branch) {
-        return undefined;
-      }
-      return `https://github.com/${owner}/${repo}/tree/${branch!.name}/${
-        node.dirPath
-      }`;
     },
   };
 

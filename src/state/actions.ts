@@ -69,7 +69,7 @@ type SetBranchesAction = {
   type: "SET_BRANCHES";
   error: string | null;
   branches: Branch[];
-  branch: Branch | undefined;
+  branch: Branch | null;
 };
 
 type SetBranchCollapsedAction = {

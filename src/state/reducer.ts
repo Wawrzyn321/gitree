@@ -1,6 +1,7 @@
 import { Actions, actions } from "./actions";
+import { AppState } from "./types";
 
-export const reducer = (state: any, action: Actions) => {
+export const reducer = (state: AppState, action: Actions) => {
   switch (action.type) {
     case actions.SET_OWNER_FORM_COLLAPSED: {
       const { collapsed } = action;
@@ -152,6 +153,7 @@ export const reducer = (state: any, action: Actions) => {
           error: null,
         },
         treeData: {
+          ...state.treeData,
           files: [],
           tree: null,
         },
@@ -167,6 +169,7 @@ export const reducer = (state: any, action: Actions) => {
           collapsed: !error && !truncated,
         },
         treeData: {
+          ...state.treeData,
           files,
           tree,
           truncated,

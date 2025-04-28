@@ -11,7 +11,7 @@ export const initialState: AppState = {
   },
   repoData: {
     repos: [],
-    repo: "",
+    repo: null,
     error: null,
     loading: false,
     collapsed: true,
