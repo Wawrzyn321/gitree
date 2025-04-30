@@ -197,16 +197,6 @@ export const reducer = (state: AppState, action: Actions) => {
           mainNode,
         },
       };
-    case ActionTypes.SET_RENDERER:
-      const { renderer } = action;
-      return {
-        ...state,
-        treeData: {
-          ...state.treeData,
-          renderer,
-        },
-      };
-
     default:
       console.warn("unhandled state: ", action);
       return state;

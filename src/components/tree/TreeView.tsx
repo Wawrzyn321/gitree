@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useRef } from "react";
 
 import { TreeRenderer } from "../../domain/TreeRenderer";
 import { TreePath } from "./TreePath";
@@ -8,6 +8,7 @@ import { HelpBanner } from "./HelpBanner";
 import useHasDarkTheme from "../../hooks/useHasDarkTheme";
 import useColors from "../../hooks/useColors";
 import { useActions, useGitreeState } from "../../state/hooks";
+import { Point2 } from "../../types/Point2";
 
 interface TreeViewProps {
   width: number;
@@ -16,39 +17,39 @@ interface TreeViewProps {
 
 export function TreeView({ width, height }: TreeViewProps) {
   const { branchData, treeData } = useGitreeState();
-  const { setHoveredNode, setMainNode, setRenderer } = useActions("tree");
+  const { setHoveredNode, setMainNode } = useActions("tree");
   const isDarkTheme = useHasDarkTheme();
   const colors = useColors();
 
-  const { tree, mainNode, renderer } = treeData;
+  const renderer = useRef<TreeRenderer | null>(null);
+
+  const { mainNode } = treeData;
 
   const canvasRef = React.useRef<HTMLCanvasElement>(null);
   const frontCanvasRef = React.useRef<HTMLCanvasElement>(null);
   const linkRef = React.useRef<HTMLAnchorElement>(null);
 
-  React.useEffect(() => {
-    if (tree && canvasRef.current) {
-      setRenderer(
-        new TreeRenderer(
-          canvasRef.current,
-          frontCanvasRef.current!,
-          linkRef.current!,
-          setHoveredNode,
-          setMainNode,
-          isDarkTheme,
-          colors,
-        ),
+  function getOrCreateRenderer() {
+    if (canvasRef.current) {
+      renderer.current = new TreeRenderer(
+        canvasRef.current,
+        frontCanvasRef.current!,
+        linkRef.current!,
+        setHoveredNode,
+        setMainNode,
+        isDarkTheme,
+        colors,
       );
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [canvasRef, tree]);
+    return renderer.current;
+  }
 
-  // eslint-disable-next-line react-hooks/exhaustive-deps
   React.useEffect(() => {
-    if (mainNode && renderer) {
-      renderer.draw(mainNode);
+    if (mainNode) {
+      getOrCreateRenderer()?.draw(mainNode);
     }
-  }, [mainNode, renderer]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [mainNode]);
 
   return (
     <>
@@ -60,9 +61,18 @@ export function TreeView({ width, height }: TreeViewProps) {
           ref={canvasRef}
           width={width}
           height={height}
-          onMouseLeave={() => renderer?.hideSelection()}
-          onClick={(e) => renderer?.click(e)}
-          onMouseMove={(e) => renderer?.mouseMove(e)}
+          onMouseLeave={() => renderer.current?.hideSelection()}
+          onClick={(e) => {
+            e.preventDefault();
+            renderer.current?.click();
+          }}
+          onMouseMove={(e) => {
+            const { offsetX, offsetY } = e.nativeEvent;
+            renderer.current?.mouseMove(new Point2(offsetX, offsetY), {
+              firstLevelPaths: !e.shiftKey,
+              showSubdivPaths: e.ctrlKey,
+            });
+          }}
         ></canvas>
       </div>
       <TreePath />

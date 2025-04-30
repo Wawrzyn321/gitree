@@ -1,4 +1,3 @@
-import { TreeRenderer } from "../domain/TreeRenderer";
 import { Branch } from "../types/Branch";
 import { FileList } from "../types/FileList";
 import { Node } from "../types/Node";
@@ -31,7 +30,6 @@ export interface AppState {
     tree: Node | null;
     mainNode: Node | null;
     hoveredNode: Node | null;
-    renderer: TreeRenderer | null;
   };
 }
 
@@ -55,7 +53,6 @@ export type BranchFormActions = {
 };
 
 export type TreeActions = {
-  setRenderer(renderer: TreeRenderer): void;
   setHoveredNode(hoveredNode: Node | null): void;
   setMainNode(mainNode: Node | null): void;
 };

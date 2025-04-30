@@ -8,7 +8,11 @@ import { Path } from "../types/Path";
 import { partition } from "./fileTree";
 import { lerp } from "./util";
 import { Colors } from "../hooks/useColors";
-import { MouseEvent } from "react";
+
+type MoveModifiers = {
+  firstLevelPaths: boolean;
+  showSubdivPaths: boolean;
+};
 
 export class TreeRenderer {
   private canvas: HTMLCanvasElement;
@@ -53,9 +57,12 @@ export class TreeRenderer {
     this.setCurrentNode = currentNodeCallback;
   }
 
-  private getPathOverType(e: MouseEvent): Path[] {
-    if (e.shiftKey) {
-      if (e.ctrlKey) {
+  private getPathOverType({
+    firstLevelPaths,
+    showSubdivPaths,
+  }: MoveModifiers): Path[] {
+    if (!firstLevelPaths) {
+      if (showSubdivPaths) {
         return this.subdivPaths;
       } else {
         return this.allPaths;
@@ -65,22 +72,21 @@ export class TreeRenderer {
     }
   }
 
-  mouseMove(e: MouseEvent) {
-    const paths = this.getPathOverType(e);
-    const pathOver = this.findPathOver(e, paths);
+  mouseMove(position: Point2, modifiers: MoveModifiers) {
+    const paths = this.getPathOverType(modifiers);
+    const pathOver = this.findPathOver(position, paths);
     if (this.currentPath !== pathOver) {
       this.currentPath = pathOver;
-      if (pathOver === null) {
-        this.selection.hide();
-      } else {
+      if (pathOver) {
         this.selection.show(pathOver);
+      } else {
+        this.selection.hide();
       }
     }
   }
 
-  click(e: MouseEvent<HTMLCanvasElement>) {
-    e.preventDefault(); // stop selecting surrounding texts
-    if (this.currentPath === null) return;
+  click() {
+    if (!this.currentPath) return;
     this.draw(this.currentPath.elem);
   }
 
@@ -212,8 +218,7 @@ export class TreeRenderer {
     return ratio;
   }
 
-  private findPathOver(e: MouseEvent, paths: Path[]): Path | null {
-    const { offsetX: x, offsetY: y } = e.nativeEvent;
+  private findPathOver({ x, y }: Point2, paths: Path[]): Path | null {
     const ctx = this.canvas.getContext("2d")!;
     const pp = (path: Path) => ctx.isPointInPath(path.shape, x, y);
     return paths.find(pp) || null;

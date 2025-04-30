@@ -16,14 +16,4 @@ type SetMainNodeAction = Action<
   }
 >;
 
-type SetRendererAction = Action<
-  ActionTypes.SET_RENDERER,
-  {
-    renderer: TreeRenderer;
-  }
->;
-
-export type TreeActions =
-  | SetHoveredNodeAction
-  | SetMainNodeAction
-  | SetRendererAction;
+export type TreeActions = SetHoveredNodeAction | SetMainNodeAction;

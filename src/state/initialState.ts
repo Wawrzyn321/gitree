@@ -29,6 +29,5 @@ export const initialState: AppState = {
     tree: null,
     mainNode: null,
     hoveredNode: null,
-    renderer: null,
   },
 };
