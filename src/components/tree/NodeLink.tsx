@@ -1,4 +1,4 @@
-import React, { ForwardedRef, forwardRef } from "react";
+import React from "react";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faExternalLinkAlt } from "@fortawesome/free-solid-svg-icons";
@@ -9,6 +9,7 @@ import { useGitreeState } from "../../state/hooks";
 
 interface NodeLinkProps {
   node: Node;
+  ref?: React.RefObject<HTMLAnchorElement | null>;
 }
 
 function getNodeUrl(node: Node, state: AppState) {
@@ -23,10 +24,7 @@ function getNodeUrl(node: Node, state: AppState) {
   }`;
 }
 
-export const NodeLink = forwardRef(function (
-  { node }: NodeLinkProps,
-  ref: ForwardedRef<HTMLAnchorElement>,
-) {
+export function NodeLink({ node, ref }: NodeLinkProps) {
   const state = useGitreeState();
   const { action } = useColors();
 
@@ -41,4 +39,4 @@ export const NodeLink = forwardRef(function (
       <FontAwesomeIcon color={action} icon={faExternalLinkAlt} />
     </a>
   );
-});
+}

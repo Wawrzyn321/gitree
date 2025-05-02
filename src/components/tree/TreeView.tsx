@@ -50,7 +50,7 @@ export function TreeView({ width, height }: TreeViewProps) {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [mainNode]);
-
+  console.log(linkRef);
   return (
     <>
       <div className="tree-view-container">
